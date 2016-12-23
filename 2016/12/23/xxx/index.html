@@ -84,22 +84,16 @@
 
 
 
-<meta name="description" content="对iOS消息机制和转发过程的知识进行梳理和总结。希望能帮助有需要的朋友重新学习一下这方面的知识。
-消息机制概念：消息机制是在RunTime中很重要的一部分，是系统运行时的重要机制。
-OC的函数调用抽象为消息发送的形式，由于是在运行时发生的所以这个过程是动态调用。这点和C语言不同，C的函数调用以及顺序都是在编译时完成。而OC在编译阶段只是通过方法选择器selector（SEL）进行检测，只要有申明该">
+<meta name="description" content="如达到就睡啦肯德基萨科技肯德基唠嗑">
 <meta property="og:type" content="article">
-<meta property="og:title" content="iOS 消息机制和转发过程">
-<meta property="og:url" content="http://yoursite.com/2016/08/10/iOS-1/index.html">
+<meta property="og:title" content="xxx">
+<meta property="og:url" content="http://yoursite.com/2016/12/23/xxx/index.html">
 <meta property="og:site_name" content="Insect">
-<meta property="og:description" content="对iOS消息机制和转发过程的知识进行梳理和总结。希望能帮助有需要的朋友重新学习一下这方面的知识。
-消息机制概念：消息机制是在RunTime中很重要的一部分，是系统运行时的重要机制。
-OC的函数调用抽象为消息发送的形式，由于是在运行时发生的所以这个过程是动态调用。这点和C语言不同，C的函数调用以及顺序都是在编译时完成。而OC在编译阶段只是通过方法选择器selector（SEL）进行检测，只要有申明该">
-<meta property="og:updated_time" content="2016-08-10T11:17:10.000Z">
+<meta property="og:description" content="如达到就睡啦肯德基萨科技肯德基唠嗑">
+<meta property="og:updated_time" content="2016-12-23T03:58:16.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="iOS 消息机制和转发过程">
-<meta name="twitter:description" content="对iOS消息机制和转发过程的知识进行梳理和总结。希望能帮助有需要的朋友重新学习一下这方面的知识。
-消息机制概念：消息机制是在RunTime中很重要的一部分，是系统运行时的重要机制。
-OC的函数调用抽象为消息发送的形式，由于是在运行时发生的所以这个过程是动态调用。这点和C语言不同，C的函数调用以及顺序都是在编译时完成。而OC在编译阶段只是通过方法选择器selector（SEL）进行检测，只要有申明该">
+<meta name="twitter:title" content="xxx">
+<meta name="twitter:description" content="如达到就睡啦肯德基萨科技肯德基唠嗑">
 
 
 
@@ -120,9 +114,9 @@ OC的函数调用抽象为消息发送的形式，由于是在运行时发生的
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2016/08/10/iOS-1/"/>
+  <link rel="canonical" href="http://yoursite.com/2016/12/23/xxx/"/>
 
-  <title> iOS 消息机制和转发过程 | Insect </title>
+  <title> xxx | Insect </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="">
@@ -252,7 +246,7 @@ OC的函数调用抽象为消息发送的形式，由于是在运行时发生的
             
             
               
-                iOS 消息机制和转发过程
+                xxx
               
             
           </h1>
@@ -264,8 +258,8 @@ OC的函数调用抽象为消息发送的形式，由于是在运行时发生的
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">Posted on</span>
-            <time itemprop="dateCreated" datetime="2016-08-10T14:16:16+08:00" content="2016-08-10">
-              2016-08-10
+            <time itemprop="dateCreated" datetime="2016-12-23T11:53:57+08:00" content="2016-12-23">
+              2016-12-23
             </time>
           </span>
 
@@ -311,69 +305,7 @@ OC的函数调用抽象为消息发送的形式，由于是在运行时发生的
       
 
       
-        <p>对iOS消息机制和转发过程的知识进行梳理和总结。希望能帮助有需要的朋友重新学习一下这方面的知识。</p>
-<h2 id="消息机制"><a href="#消息机制" class="headerlink" title="消息机制"></a>消息机制</h2><h3 id="概念："><a href="#概念：" class="headerlink" title="概念："></a>概念：</h3><p>消息机制是在RunTime中很重要的一部分，是系统运行时的重要机制。</p>
-<p>OC的函数调用抽象为消息发送的形式，由于是在运行时发生的所以这个过程是动态调用。这点和C语言不同，C的函数调用以及顺序都是在编译时完成。而OC在编译阶段只是通过方法选择器selector（SEL）进行检测，只要有申明该方法就会编译通过。但OC函数的构成出了SEL，还由一个implement (IML) 组成，IML才是真正的函数实现。所以真正的函数调用，是在运行时根据SEL找到IML进行调用。<br><a id="more"></a></p>
-<h3 id="消息发送过程："><a href="#消息发送过程：" class="headerlink" title="消息发送过程："></a>消息发送过程：</h3><ol>
-<li>[obj method] 转化为 objc_megSend(obj,@selector(method)) </li>
-<li>通过obj的isa指针找到对应的class。然后先去class的cashe中，通过SEL查找对应的函数method。若cache中未找到，再去方法列表methodlist中查找。若也没找到，再去superClass中以同样的顺序查找。</li>
-<li>直到找到，并将method放入到cache中，最终通过method中的函数指针进行函数调用。</li>
-</ol>
-<h2 id="消息转发"><a href="#消息转发" class="headerlink" title="消息转发"></a>消息转发</h2><h3 id="描述："><a href="#描述：" class="headerlink" title="描述："></a>描述：</h3><p>在以上对消息机制中描述中存在一种存在一种可能，就是在当前类和父类中都没找到对应方法的实现，这时在运行时机制中不会立即报错，而是进行消息转发。</p>
-<h3 id="消息转发的过程："><a href="#消息转发的过程：" class="headerlink" title="消息转发的过程："></a>消息转发的过程：</h3><ol>
-<li><p>动态方法解析：向当前类发送resolveInstanceMethod：消息，检测是否动态向该类添加了方法。添加了则返回YES，否则返回NO进行下面的转发过程。</p>
-<pre><code>void resolveMethodIMP(id self, SEL sel)
-{
-    // implementation
-}
-
-+ (BOOL)resolveInstanceMethod:(SEL)sel
-{
-    if (sel == @selector(resolveMethod))
-     {
-        class_addMethod([self class], sel, (IMP)resolveMethodIMP, &quot;v@:&quot;);
-         return YES;
-      }
-        return [super resolveInstanceMethod:sel];
-} 
-// &quot;v@:&quot; 组合字符表示函数类型 v-&gt;void @-&gt;参数id :-&gt;参数SEL
-</code></pre></li>
-<li><p>快速消息转发：检查该类是否实现了forwardingTargetForSelector方法，如实现了再调用该方法。若该方法返回值对象不为空并且不是self，则消息转发给返回的新对象。否则继续下面的转发流程。</p>
-<pre><code>- (id)forwardingTargetForSelector:(SEL)aSelector
-{
-    Target *target = [Target new];
-    if ([target respondsToSelector:aSelector])
-    {
-        return target;
-    }
-    return [super forwardingTargetForSelector:aSelector];
-}
-</code></pre></li>
-<li><p>标准消息转发：最后一步检测发送methodSignatureForSelector：消息获取selector对应的签名。获取到签名则通过forwardInvocation：转发消息，否则报错抛出异常。</p>
-<pre><code>- (NSMethodSignature *)methodSignatureForSelector:(SEL)aSelector
-{
-    if (aSelector == @selector(method))
-     {
-        //为method注册一个无参无返的方法签名
-        return [NSMethodSignature signatureWithObjCTypes:&quot;v@:&quot;];
-   }else{
-         //抛出异常
-        return nil;
-     }
-}
-
-- (void)forwardInvocation:(NSInvocation *)anInvocation
-{
-       //进行你想要的操作，或者转发给其它对象
-    Target *target = [Target new];
-    if ([target respondsToSelector:anInvocation.selector]) {
-        [anInvocation setTarget:target];
-        [anInvocation invoke];
-    }
-}
-</code></pre></li>
-</ol>
-<p><strong>PS:以上则是个人对消息发送机制的理解和总结。</strong></p>
+        <p>如达到就睡啦肯德基萨科技肯德基唠嗑</p>
 
       
     </div>
@@ -405,17 +337,13 @@ OC的函数调用抽象为消息发送的形式，由于是在运行时发生的
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/08/10/iOS/" rel="next" title="FF">
-                <i class="fa fa-chevron-left"></i> FF
+              <a href="/2016/08/10/iOS-1/" rel="next" title="iOS 消息机制和转发过程">
+                <i class="fa fa-chevron-left"></i> iOS 消息机制和转发过程
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2016/12/23/xxx/" rel="prev" title="xxx">
-                xxx <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -529,7 +457,7 @@ OC的函数调用抽象为消息发送的形式，由于是在运行时发生的
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#消息机制"><span class="nav-number">1.</span> <span class="nav-text">消息机制</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#概念："><span class="nav-number">1.1.</span> <span class="nav-text">概念：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#消息发送过程："><span class="nav-number">1.2.</span> <span class="nav-text">消息发送过程：</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#消息转发"><span class="nav-number">2.</span> <span class="nav-text">消息转发</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#描述："><span class="nav-number">2.1.</span> <span class="nav-text">描述：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#消息转发的过程："><span class="nav-number">2.2.</span> <span class="nav-text">消息转发的过程：</span></a></li></ol></li></ol></div>
+              <p class="post-toc-empty">This post does not have a Table of Contents</p>
             
           </div>
         </section>
