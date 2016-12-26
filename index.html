@@ -245,8 +245,8 @@
             
               
                 
-                <a class="post-title-link" href="/2016/12/23/xxx/" itemprop="url">
-                  xxx
+                <a class="post-title-link" href="/2016/12/23/KVO:KVC/" itemprop="url">
+                  KVO KVC 实现过程
                 </a>
               
             
@@ -308,7 +308,41 @@
       
         
           
-            <p>如达到就睡啦肯德基萨科技肯德基唠嗑</p>
+            <h2 id="KVO"><a href="#KVO" class="headerlink" title="KVO"></a>KVO</h2><h3 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h3><p>KVO(键值编码),提供了一种使用字符串而不是访问器方法去访问对象实例变量的机制。</p>
+<h3 id="实现过程"><a href="#实现过程" class="headerlink" title="实现过程"></a>实现过程</h3><p> [object setValue: forKey:<key>]</key></p>
+<p> [object valueForKey:<key>]</key></p>
+<p> 通过runtime的动态能力，实现以下过程：</p>
+<p> 1.按顺序检测-get\<key>、-\<key>、-is\<key>、-_get\<key>、-_\<key>访问器方法，如果存在，使用访问器返回值。</key></key></key></key></key></p>
+<p> 2.按顺序检测-set\<key>、-_set\<key>、-setIs\<key>访问器方法，如果存在，使用访问器赋值。</key></key></key></p>
+<p> 3.如果未实现访问器方法，直接查找实例变量列表，按顺序检测变量名： _\<key>、\<key> 、_is\<key>、is\<key> 如果存在变量，直接进行访问。</key></key></key></key></p>
+<p> 4.如果仍未找到变量，调用valueForUndefinedKey:和setValue:forUndefinedKey:方法，默认实现会抛出异常。</p>
+<h3 id="集合操作"><a href="#集合操作" class="headerlink" title="集合操作"></a>集合操作</h3><p>  NSNumber *sum = [array valueForKeyPath:@”@sum.key”]; //求和</p>
+<p>  NSNumber *avg = [array valueForKeyPath:@”@avg.key”]; //平均值</p>
+<p>  NSNumber *max = [array valueForKeyPath:@”@max.key”]; //最大值</p>
+<p>  NSNumber *min = [array valueForKeyPath:@”@min.key”]; //最小值</p>
+<p>  NSArray *arr = [array valueForKeyPath:@”@unionOfObjects.name”]; //返回key path所指的对象集合</p>
+<p>  NSArray *arr = [array valueForKeyPath:@”@distinctUnionOfObjects.name”]; //返回去重后，key path所指的对象集合</p>
+<p>  NSArray *arr = [arrays valueForKeyPath:@”@distinctUnionOfArrays.name”]; //返回嵌套数组中key path所指的对象集合</p>
+<p>  NSArray *arr = [arrays valueForKeyPath:@”@unionOfArrays.name”]; //返回嵌套数组中去重后，key path所指的对象集合</p>
+<h2 id="KVC"><a href="#KVC" class="headerlink" title="KVC"></a>KVC</h2><h3 id="概念-1"><a href="#概念-1" class="headerlink" title="概念"></a>概念</h3><p>KVC(键值观察),提供了一种在修改对象属性时可以通知目标对象的机制。</p>
+<h3 id="实现过程-1"><a href="#实现过程-1" class="headerlink" title="实现过程"></a>实现过程</h3><p>[objct addObserver: forKeyPath: options: context:]</p>
+<p>[objct setValue: forKey:]</p>
+<p>当对象被观察，运行时系统会创建一个派生类：</p>
+<p>  1.重写class方法，返回继承类的class。</p>
+<p>  2.重写set方法，增加两个方法调用：</p>
+<pre><code>  - (void)willChangeValueForKey:(NSString *)key
+- (void)didChangeValueForKey:(NSString *)key
+</code></pre><p>当对象属性被修改时：</p>
+<p>  1.若有实现set方法，则在派生类重写的set方法中调用</p>
+<pre><code>  - (void)willChangeValueForKey:(NSString *)key
+- (void)didChangeValueForKey:(NSString *)key
+</code></pre><p>  2.若没有实现set方法，则直接在[objct setValue: forKey:]中调用</p>
+<pre><code>- (void)willChangeValueForKey:(NSString *)key
+- (void)didChangeValueForKey:(NSString *)key
+</code></pre><p>KVO被触发的时机：</p>
+<p>  1.调用[objct setValue: forKey:]</p>
+<p>  2.调用set方法</p>
+<p>  3.调用-willChangeValueForKey: 和 -didChangeValueForKey:</p>
 
           
         
