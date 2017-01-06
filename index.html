@@ -97,7 +97,7 @@
   var NexT = window.NexT || {};
   var CONFIG = {
     scheme: 'Muse',
-    sidebar: {"position":"left","display":"always"},
+    sidebar: {"position":"left","display":"hide"},
     fancybox: true,
     motion: true,
     duoshuo: {
@@ -149,7 +149,7 @@
       <span class="logo-line-after"><i></i></span>
     </a>
   </div>
-  <p class="site-subtitle">一直向前，没有终点。</p>
+  <p class="site-subtitle">Hello world</p>
 </div>
 
 <div class="site-nav-toggle">
@@ -245,6 +245,121 @@
             
               
                 
+                <a class="post-title-link" href="/2017/01/06/iOS之-https-CA证书的验证/" itemprop="url">
+                  iOS之 https CA证书的验证
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2017-01-06T10:28:38+08:00" content="2017-01-06">
+              2017-01-06
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/iOS/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h2 id="App-Transport-Security"><a href="#App-Transport-Security" class="headerlink" title="App Transport Security"></a>App Transport Security</h2><p>iOS9新特性ATS，原HTTP请求会转向TLS1.2协议进行传输，意味着强制使用了HTTPS协议进行传输。<br>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2017/01/06/iOS之-https-CA证书的验证/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/12/23/KVO:KVC/" itemprop="url">
                   KVO KVC 实现过程
                 </a>
@@ -307,44 +422,12 @@
 
       
         
-          
-            <h2 id="KVO"><a href="#KVO" class="headerlink" title="KVO"></a>KVO</h2><h3 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h3><p>KVO(键值编码),提供了一种使用字符串而不是访问器方法去访问对象实例变量的机制。</p>
-<h3 id="实现过程"><a href="#实现过程" class="headerlink" title="实现过程"></a>实现过程</h3><p> [object setValue: forKey:<key>]</key></p>
-<p> [object valueForKey:<key>]</key></p>
-<p> 通过runtime的动态能力，实现以下过程：</p>
-<p> 1.按顺序检测-get\<key>、-\<key>、-is\<key>、-_get\<key>、-_\<key>访问器方法，如果存在，使用访问器返回值。</key></key></key></key></key></p>
-<p> 2.按顺序检测-set\<key>、-_set\<key>、-setIs\<key>访问器方法，如果存在，使用访问器赋值。</key></key></key></p>
-<p> 3.如果未实现访问器方法，直接查找实例变量列表，按顺序检测变量名： _\<key>、\<key> 、_is\<key>、is\<key> 如果存在变量，直接进行访问。</key></key></key></key></p>
-<p> 4.如果仍未找到变量，调用valueForUndefinedKey:和setValue:forUndefinedKey:方法，默认实现会抛出异常。</p>
-<h3 id="集合操作"><a href="#集合操作" class="headerlink" title="集合操作"></a>集合操作</h3><p>  NSNumber *sum = [array valueForKeyPath:@”@sum.key”]; //求和</p>
-<p>  NSNumber *avg = [array valueForKeyPath:@”@avg.key”]; //平均值</p>
-<p>  NSNumber *max = [array valueForKeyPath:@”@max.key”]; //最大值</p>
-<p>  NSNumber *min = [array valueForKeyPath:@”@min.key”]; //最小值</p>
-<p>  NSArray *arr = [array valueForKeyPath:@”@unionOfObjects.name”]; //返回key path所指的对象集合</p>
-<p>  NSArray *arr = [array valueForKeyPath:@”@distinctUnionOfObjects.name”]; //返回去重后，key path所指的对象集合</p>
-<p>  NSArray *arr = [arrays valueForKeyPath:@”@distinctUnionOfArrays.name”]; //返回嵌套数组中key path所指的对象集合</p>
-<p>  NSArray *arr = [arrays valueForKeyPath:@”@unionOfArrays.name”]; //返回嵌套数组中去重后，key path所指的对象集合</p>
-<h2 id="KVC"><a href="#KVC" class="headerlink" title="KVC"></a>KVC</h2><h3 id="概念-1"><a href="#概念-1" class="headerlink" title="概念"></a>概念</h3><p>KVC(键值观察),提供了一种在修改对象属性时可以通知目标对象的机制。</p>
-<h3 id="实现过程-1"><a href="#实现过程-1" class="headerlink" title="实现过程"></a>实现过程</h3><p>[objct addObserver: forKeyPath: options: context:]</p>
-<p>[objct setValue: forKey:]</p>
-<p>当对象被观察，运行时系统会创建一个派生类：</p>
-<p>  1.重写class方法，返回继承类的class。</p>
-<p>  2.重写set方法，增加两个方法调用：</p>
-<pre><code>  - (void)willChangeValueForKey:(NSString *)key
-- (void)didChangeValueForKey:(NSString *)key
-</code></pre><p>当对象属性被修改时：</p>
-<p>  1.若有实现set方法，则在派生类重写的set方法中调用</p>
-<pre><code>  - (void)willChangeValueForKey:(NSString *)key
-- (void)didChangeValueForKey:(NSString *)key
-</code></pre><p>  2.若没有实现set方法，则直接在[objct setValue: forKey:]中调用</p>
-<pre><code>- (void)willChangeValueForKey:(NSString *)key
-- (void)didChangeValueForKey:(NSString *)key
-</code></pre><p>KVO被触发的时机：</p>
-<p>  1.调用[objct setValue: forKey:]</p>
-<p>  2.调用set方法</p>
-<p>  3.调用-willChangeValueForKey: 和 -didChangeValueForKey:</p>
-
-          
+          <h2 id="KVO"><a href="#KVO" class="headerlink" title="KVO"></a>KVO</h2><p>KVO(键值编码),提供了一种使用字符串而不是访问器方法去访问对象实例变量的机制。<br>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2016/12/23/KVO:KVC/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
         
       
     </div>
@@ -392,7 +475,7 @@
             
               
                 
-                <a class="post-title-link" href="/2016/08/10/iOS-1/" itemprop="url">
+                <a class="post-title-link" href="/2016/08/10/iOS-消息机制和转发过程/" itemprop="url">
                   iOS 消息机制和转发过程
                 </a>
               
@@ -458,7 +541,7 @@
 <h2 id="消息机制"><a href="#消息机制" class="headerlink" title="消息机制"></a>消息机制</h2><h3 id="概念："><a href="#概念：" class="headerlink" title="概念："></a>概念：</h3><p>消息机制是在RunTime中很重要的一部分，是系统运行时的重要机制。</p>
 <p>OC的函数调用抽象为消息发送的形式，由于是在运行时发生的所以这个过程是动态调用。这点和C语言不同，C的函数调用以及顺序都是在编译时完成。而OC在编译阶段只是通过方法选择器selector（SEL）进行检测，只要有申明该方法就会编译通过。但OC函数的构成出了SEL，还由一个implement (IML) 组成，IML才是真正的函数实现。所以真正的函数调用，是在运行时根据SEL找到IML进行调用。<br>
           <div class="post-more-link text-center">
-            <a class="btn" href="/2016/08/10/iOS-1/#more" rel="contents">
+            <a class="btn" href="/2016/08/10/iOS-消息机制和转发过程/#more" rel="contents">
               Read more &raquo;
             </a>
           </div>
@@ -725,7 +808,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">4</span>
+              <span class="site-state-item-count">5</span>
               <span class="site-state-item-name">posts</span>
             </a>
           </div>
@@ -742,7 +825,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-count">2</span>
                 <span class="site-state-item-name">tags</span>
               </a>
             </div>
@@ -779,7 +862,7 @@
         <div class="copyright" >
   
   &copy; 
-  <span itemprop="copyrightYear">2016</span>
+  <span itemprop="copyrightYear">2017</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
