@@ -68,7 +68,7 @@
 <link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="OC," />
+  <meta name="keywords" content="oc," />
 
 
 
@@ -84,16 +84,19 @@
 
 
 
-<meta name="description" content="KVOKVO(键值编码),提供了一种使用字符串而不是访问器方法去访问对象实例变量的机制。">
+<meta name="description" content="对比使用 Core Graphics 绘图效率较低，并且会消耗较多内存。一般在CALayer的-drawLayer:inContext:方法或者UIView中的-drawRect:方法中，每次绘制图层都会创建一个绘制上下文，上下文所需的内存大小:图层宽  图层高  4字节。重绘视图的代价比较昂贵，所以尽量避免重新绘制视图。
+如果只是使用CALayer直接赋值给contents属性一张图片，来进行绘">
 <meta property="og:type" content="article">
-<meta property="og:title" content="KVO KVC 实现过程">
-<meta property="og:url" content="http://yoursite.com/2016/12/23/KVO:KVC/index.html">
+<meta property="og:title" content="QuartzCore 和 CoreGraphics">
+<meta property="og:url" content="http://yoursite.com/2017/02/05/iOS绘制性能/index.html">
 <meta property="og:site_name" content="Insect">
-<meta property="og:description" content="KVOKVO(键值编码),提供了一种使用字符串而不是访问器方法去访问对象实例变量的机制。">
-<meta property="og:updated_time" content="2017-01-06T06:07:05.000Z">
+<meta property="og:description" content="对比使用 Core Graphics 绘图效率较低，并且会消耗较多内存。一般在CALayer的-drawLayer:inContext:方法或者UIView中的-drawRect:方法中，每次绘制图层都会创建一个绘制上下文，上下文所需的内存大小:图层宽  图层高  4字节。重绘视图的代价比较昂贵，所以尽量避免重新绘制视图。
+如果只是使用CALayer直接赋值给contents属性一张图片，来进行绘">
+<meta property="og:updated_time" content="2017-02-05T09:07:59.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="KVO KVC 实现过程">
-<meta name="twitter:description" content="KVOKVO(键值编码),提供了一种使用字符串而不是访问器方法去访问对象实例变量的机制。">
+<meta name="twitter:title" content="QuartzCore 和 CoreGraphics">
+<meta name="twitter:description" content="对比使用 Core Graphics 绘图效率较低，并且会消耗较多内存。一般在CALayer的-drawLayer:inContext:方法或者UIView中的-drawRect:方法中，每次绘制图层都会创建一个绘制上下文，上下文所需的内存大小:图层宽  图层高  4字节。重绘视图的代价比较昂贵，所以尽量避免重新绘制视图。
+如果只是使用CALayer直接赋值给contents属性一张图片，来进行绘">
 
 
 
@@ -114,9 +117,9 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2016/12/23/KVO:KVC/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/02/05/iOS绘制性能/"/>
 
-  <title> KVO KVC 实现过程 | Insect </title>
+  <title> QuartzCore 和 CoreGraphics | Insect </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="">
@@ -246,7 +249,7 @@
             
             
               
-                KVO KVC 实现过程
+                QuartzCore 和 CoreGraphics
               
             
           </h1>
@@ -258,8 +261,8 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">Veröffentlicht am</span>
-            <time itemprop="dateCreated" datetime="2016-12-23T11:53:57+08:00" content="2016-12-23">
-              2016-12-23
+            <time itemprop="dateCreated" datetime="2017-02-05T11:24:05+08:00" content="2017-02-05">
+              2017-02-05
             </time>
           </span>
 
@@ -305,41 +308,58 @@
       
 
       
-        <h2 id="KVO"><a href="#KVO" class="headerlink" title="KVO"></a>KVO</h2><p>KVO(键值编码),提供了一种使用字符串而不是访问器方法去访问对象实例变量的机制。<br> <a id="more"></a></p>
-<h3 id="实现过程"><a href="#实现过程" class="headerlink" title="实现过程"></a>实现过程</h3><p> [object setValue: forKey:<key>]</key></p>
-<p> [object valueForKey:<key>]</key></p>
-<p> 通过runtime的动态能力，实现以下过程：</p>
-<p> 1.按顺序检测-get\<key>、-\<key>、-is\<key>、-_get\<key>、-_\<key>访问器方法，如果存在，使用访问器返回值。</key></key></key></key></key></p>
-<p> 2.按顺序检测-set\<key>、-_set\<key>、-setIs\<key>访问器方法，如果存在，使用访问器赋值。</key></key></key></p>
-<p> 3.如果未实现访问器方法，直接查找实例变量列表，按顺序检测变量名： _\<key>、\<key> 、_is\<key>、is\<key> 如果存在变量，直接进行访问。</key></key></key></key></p>
-<p> 4.如果仍未找到变量，调用valueForUndefinedKey:和setValue:forUndefinedKey:方法，默认实现会抛出异常。</p>
-<h3 id="集合操作"><a href="#集合操作" class="headerlink" title="集合操作"></a>集合操作</h3><p>  NSNumber *sum = [array valueForKeyPath:@”@sum.key”]; //求和</p>
-<p>  NSNumber *avg = [array valueForKeyPath:@”@avg.key”]; //平均值</p>
-<p>  NSNumber *max = [array valueForKeyPath:@”@max.key”]; //最大值</p>
-<p>  NSNumber *min = [array valueForKeyPath:@”@min.key”]; //最小值</p>
-<p>  NSArray *arr = [array valueForKeyPath:@”@unionOfObjects.name”]; //返回key path所指的对象集合</p>
-<p>  NSArray *arr = [array valueForKeyPath:@”@distinctUnionOfObjects.name”]; //返回去重后，key path所指的对象集合</p>
-<p>  NSArray *arr = [arrays valueForKeyPath:@”@distinctUnionOfArrays.name”]; //返回嵌套数组中key path所指的对象集合</p>
-<p>  NSArray *arr = [arrays valueForKeyPath:@”@unionOfArrays.name”]; //返回嵌套数组中去重后，key path所指的对象集合</p>
-<h2 id="KVC"><a href="#KVC" class="headerlink" title="KVC"></a>KVC</h2><h3 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h3><p>KVC(键值观察),提供了一种在修改对象属性时可以通知目标对象的机制。</p>
-<h3 id="实现过程-1"><a href="#实现过程-1" class="headerlink" title="实现过程"></a>实现过程</h3><p>[objct addObserver: forKeyPath: options: context:]</p>
-<p>[objct setValue: forKey:]</p>
-<p>当对象被观察，运行时系统会创建一个派生类：</p>
-<p>  1.重写class方法，返回继承类的class。</p>
-<p>  2.重写set方法，增加两个方法调用：</p>
-<pre><code>  - (void)willChangeValueForKey:(NSString *)key
-- (void)didChangeValueForKey:(NSString *)key
-</code></pre><p>当对象属性被修改时：</p>
-<p>  1.若有实现set方法，则在派生类重写的set方法中调用</p>
-<pre><code>  - (void)willChangeValueForKey:(NSString *)key
-- (void)didChangeValueForKey:(NSString *)key
-</code></pre><p>  2.若没有实现set方法，则直接在[objct setValue: forKey:]中调用</p>
-<pre><code>- (void)willChangeValueForKey:(NSString *)key
-- (void)didChangeValueForKey:(NSString *)key
-</code></pre><p>KVO被触发的时机：</p>
-<p>  1.调用[objct setValue: forKey:]</p>
-<p>  2.调用set方法</p>
-<p>  3.调用-willChangeValueForKey: 和 -didChangeValueForKey:</p>
+        <h2 id="对比"><a href="#对比" class="headerlink" title="对比"></a>对比</h2><p>使用 Core Graphics 绘图效率较低，并且会消耗较多内存。一般在CALayer的-drawLayer:inContext:方法或者UIView中的-drawRect:方法中，每次绘制图层都会创建一个绘制上下文，上下文所需的内存大小:图层宽 <em> 图层高 </em> 4字节。重绘视图的代价比较昂贵，所以尽量避免重新绘制视图。</p>
+<p>如果只是使用CALayer直接赋值给contents属性一张图片，来进行绘制，不会消耗过多的内存，并且同一张图片被多个图层作为contents属性，他们会公用一块内存。<br><a id="more"></a></p>
+<h2 id="Core-Graphics"><a href="#Core-Graphics" class="headerlink" title="Core Graphics"></a>Core Graphics</h2><p>Core Graphics 绘制层次较多、内容较复杂的情况下使用。</p>
+<p>提升 Core Graphics 绘制性能，-setNeedsDisplay每次都会对整个区域进行重新绘制，可使用-setNeedsDisplayInRect:，使用该方法标记需要的重绘区域，避免每次重复绘制没有变动的区域。</p>
+<h2 id="QuartzCore"><a href="#QuartzCore" class="headerlink" title="QuartzCore"></a>QuartzCore</h2><p>QuartzCore 提供了些不同绘制类型的图层类，并提供了硬件支持。<br>如果想自定义view的图层类型，实现UIView的+(class) layerClass{}函数。</p>
+<pre><code>+ (Class)layerClass {
+    return [CAShapeLayer class];
+}
+</code></pre><h3 id="CALayer"><a href="#CALayer" class="headerlink" title="CALayer"></a>CALayer</h3><p>CALayer 绘制图片，可放缩。</p>
+<pre><code>CALayer *layer = [CALayer layer];
+layer.frame = CGRectMake(50, 50, 100, 100);
+layer.contentsRect = CGRectMake(0, 0, 1, 1); //设置放缩区域
+layer.contentsGravity = kCAGravityResize;    //设置填充方式
+layer.contentsCenter = CGRectMake(0.5, 0.5, 0.0, 0.0); //设置拉伸区域
+layer.contentsScale = [UIScreen mainScreen].scale;
+layer.contents = (__bridge id)[UIImage imageNamed:@&quot;Circle.png&quot;].CGImage;
+</code></pre><h3 id="CAShapeLayer"><a href="#CAShapeLayer" class="headerlink" title="CAShapeLayer"></a>CAShapeLayer</h3><p>CAShapeLayer 绘制多边形，曲线，可替代圆角。</p>
+<pre><code>CAShapeLayer *layer = [CAShapeLayer layer];
+layer.frame = CGRectMake(50, 50, 100, 100);
+layer.fillColor = [UIColor blueColor].CGColor;
+layer.path = [UIBezierPath bezierPathWithRoundedRect:
+CGRectMake(0, 0, 100, 100) cornerRadius:20].CGPath;
+</code></pre><h3 id="CATextLayer"><a href="#CATextLayer" class="headerlink" title="CATextLayer"></a>CATextLayer</h3><p>CATextLayer 绘制文本。</p>
+<pre><code>CATextLayer *lary = [CATextLayer layer];
+lary.string = @&quot;dasfasa&quot;;
+lary.bounds = CGRectMake(0, 0, 320, 20);
+lary.font = @&quot;HiraKakuProN-W3&quot;;
+lary.fontSize = 12.f;
+lary.alignmentMode = kCAAlignmentCenter;//字体的对齐方式
+lary.position = CGPointMake(160, 410);
+lary.foregroundColor = [UIColor redColor].CGColor;//字体的颜色
+</code></pre><h3 id="CAGradientLayer"><a href="#CAGradientLayer" class="headerlink" title="CAGradientLayer"></a>CAGradientLayer</h3><p>CAGradientLayer 绘制渐变色</p>
+<pre><code>CAGradientLayer *gradientLayer = [CAGradientLayer layer];
+gradientLayer.frame = self.containerView.bounds;
+gradientLayer.colors = @[(__bridge id)[UIColor redColor].CGColor, (__bridge id) [UIColor yellowColor].CGColor, (__bridge id)[UIColor greenColor].CGColor]; //设置渐变色
+gradientLayer.locations = @[@0.0, @0.25, @0.5]; //设置过度点
+gradientLayer.startPoint = CGPointMake(0, 0);  //设置起点
+gradientLayer.endPoint = CGPointMake(1, 1);  //设置终点
+</code></pre><h3 id="CATransform3D、CATransformLayer"><a href="#CATransform3D、CATransformLayer" class="headerlink" title="CATransform3D、CATransformLayer"></a>CATransform3D、CATransformLayer</h3><hr>
+<h3 id="光栅化"><a href="#光栅化" class="headerlink" title="光栅化"></a>光栅化</h3><p>CALayer 启用 shouldRasterize 属性会将图层绘制到一个屏幕之外的图像。然后这个图像将会被缓存起来并绘制到实际图层的contents和子图层。如果有很多的子图层或者有复杂的效果，使用shouldRasterize会带来性能提升。但是光栅化原始图像需要时间，而且还会消耗额外的内存。如果图层不断变动，不建议开启该属性。</p>
+<h3 id="离屏渲染"><a href="#离屏渲染" class="headerlink" title="离屏渲染"></a>离屏渲染</h3><p>当图层未预合成之前，要进行屏幕外渲染。会带来性能上的开销。以下情况会出现离屏渲染：</p>
+<ul>
+<li>同时使用圆角和maskToBounds</li>
+<li>阴影</li>
+<li>遮盖(mask属性)</li>
+</ul>
+<h3 id="异步绘制"><a href="#异步绘制" class="headerlink" title="异步绘制"></a>异步绘制</h3><p>异步绘制方法：</p>
+<ul>
+<li>另外一个线程上绘制内容，然后将由此绘出的图片直接设置为图层的内容。</li>
+<li>使用 CALayer 的 drawsAsynchronously 属性，drawsAsynchronously属性对传入 -drawLayer:inContext: 的CGContext进行改动，允许CGContext延缓绘制命令的执行以至于不阻塞用户交互。</li>
+<li>使用 CATiledLayer ，它的 -drawLayer:inContext: 方法只会在主线程调用，但是CGContext并不等待每个绘制命令的结束。它会将命令加入队列，在后台线程逐个执行绘制。</li>
+</ul>
 
       
     </div>
@@ -362,7 +382,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/OC/" rel="tag">#OC</a>
+            <a href="/tags/oc/" rel="tag">#oc</a>
           
         </div>
       
@@ -371,17 +391,13 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/08/10/iOS消息机制/" rel="next" title="iOS 消息机制和转发过程">
-                <i class="fa fa-chevron-left"></i> iOS 消息机制和转发过程
+              <a href="/2017/01/06/iOS https CA证书的验证/" rel="next" title="iOS https CA证书的验证">
+                <i class="fa fa-chevron-left"></i> iOS https CA证书的验证
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/01/06/iOS https CA证书的验证/" rel="prev" title="iOS https CA证书的验证">
-                iOS https CA证书的验证 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -495,7 +511,7 @@
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#KVO"><span class="nav-number">1.</span> <span class="nav-text">KVO</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#实现过程"><span class="nav-number">1.1.</span> <span class="nav-text">实现过程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#集合操作"><span class="nav-number">1.2.</span> <span class="nav-text">集合操作</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#KVC"><span class="nav-number">2.</span> <span class="nav-text">KVC</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#概念"><span class="nav-number">2.1.</span> <span class="nav-text">概念</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实现过程-1"><span class="nav-number">2.2.</span> <span class="nav-text">实现过程</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#对比"><span class="nav-number">1.</span> <span class="nav-text">对比</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Core-Graphics"><span class="nav-number">2.</span> <span class="nav-text">Core Graphics</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#QuartzCore"><span class="nav-number">3.</span> <span class="nav-text">QuartzCore</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#CALayer"><span class="nav-number">3.1.</span> <span class="nav-text">CALayer</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CAShapeLayer"><span class="nav-number">3.2.</span> <span class="nav-text">CAShapeLayer</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CATextLayer"><span class="nav-number">3.3.</span> <span class="nav-text">CATextLayer</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CAGradientLayer"><span class="nav-number">3.4.</span> <span class="nav-text">CAGradientLayer</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CATransform3D、CATransformLayer"><span class="nav-number">3.5.</span> <span class="nav-text">CATransform3D、CATransformLayer</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#光栅化"><span class="nav-number">3.6.</span> <span class="nav-text">光栅化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#离屏渲染"><span class="nav-number">3.7.</span> <span class="nav-text">离屏渲染</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#异步绘制"><span class="nav-number">3.8.</span> <span class="nav-text">异步绘制</span></a></li></ol></li></ol></div>
             
           </div>
         </section>

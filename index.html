@@ -245,8 +245,124 @@
             
               
                 
-                <a class="post-title-link" href="/2017/01/06/iOS之-https-CA证书的验证/" itemprop="url">
-                  iOS之 https CA证书的验证
+                <a class="post-title-link" href="/2017/02/05/iOS绘制性能/" itemprop="url">
+                  QuartzCore 和 CoreGraphics
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Veröffentlicht am</span>
+            <time itemprop="dateCreated" datetime="2017-02-05T11:24:05+08:00" content="2017-02-05">
+              2017-02-05
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">in</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/iOS/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h2 id="对比"><a href="#对比" class="headerlink" title="对比"></a>对比</h2><p>使用 Core Graphics 绘图效率较低，并且会消耗较多内存。一般在CALayer的-drawLayer:inContext:方法或者UIView中的-drawRect:方法中，每次绘制图层都会创建一个绘制上下文，上下文所需的内存大小:图层宽 <em> 图层高 </em> 4字节。重绘视图的代价比较昂贵，所以尽量避免重新绘制视图。</p>
+<p>如果只是使用CALayer直接赋值给contents属性一张图片，来进行绘制，不会消耗过多的内存，并且同一张图片被多个图层作为contents属性，他们会公用一块内存。<br>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2017/02/05/iOS绘制性能/#more" rel="contents">
+              Weiterlesen &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/01/06/iOS https CA证书的验证/" itemprop="url">
+                  iOS https CA证书的验证
                 </a>
               
             
@@ -309,7 +425,7 @@
         
           <h2 id="App-Transport-Security"><a href="#App-Transport-Security" class="headerlink" title="App Transport Security"></a>App Transport Security</h2><p>iOS9新特性ATS，原HTTP请求会转向TLS1.2协议进行传输，意味着强制使用了HTTPS协议进行传输。<br>
           <div class="post-more-link text-center">
-            <a class="btn" href="/2017/01/06/iOS之-https-CA证书的验证/#more" rel="contents">
+            <a class="btn" href="/2017/01/06/iOS https CA证书的验证/#more" rel="contents">
               Weiterlesen &raquo;
             </a>
           </div>
@@ -475,7 +591,7 @@
             
               
                 
-                <a class="post-title-link" href="/2016/08/10/iOS-1/" itemprop="url">
+                <a class="post-title-link" href="/2016/08/10/iOS消息机制/" itemprop="url">
                   iOS 消息机制和转发过程
                 </a>
               
@@ -541,7 +657,7 @@
 <h2 id="消息机制"><a href="#消息机制" class="headerlink" title="消息机制"></a>消息机制</h2><h3 id="概念："><a href="#概念：" class="headerlink" title="概念："></a>概念：</h3><p>消息机制是在RunTime中很重要的一部分，是系统运行时的重要机制。</p>
 <p>OC的函数调用抽象为消息发送的形式，由于是在运行时发生的所以这个过程是动态调用。这点和C语言不同，C的函数调用以及顺序都是在编译时完成。而OC在编译阶段只是通过方法选择器selector（SEL）进行检测，只要有申明该方法就会编译通过。但OC函数的构成出了SEL，还由一个implement (IML) 组成，IML才是真正的函数实现。所以真正的函数调用，是在运行时根据SEL找到IML进行调用。<br>
           <div class="post-more-link text-center">
-            <a class="btn" href="/2016/08/10/iOS-1/#more" rel="contents">
+            <a class="btn" href="/2016/08/10/iOS消息机制/#more" rel="contents">
               Weiterlesen &raquo;
             </a>
           </div>
@@ -808,7 +924,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">5</span>
+              <span class="site-state-item-count">6</span>
               <span class="site-state-item-name">Artikel</span>
             </a>
           </div>

@@ -68,7 +68,7 @@
 <link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="OC," />
+  <meta name="keywords" content="oc," />
 
 
 
@@ -84,16 +84,16 @@
 
 
 
-<meta name="description" content="KVOKVO(键值编码),提供了一种使用字符串而不是访问器方法去访问对象实例变量的机制。">
+<meta name="description" content="App Transport SecurityiOS9新特性ATS，原HTTP请求会转向TLS1.2协议进行传输，意味着强制使用了HTTPS协议进行传输。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="KVO KVC 实现过程">
-<meta property="og:url" content="http://yoursite.com/2016/12/23/KVO:KVC/index.html">
+<meta property="og:title" content="iOS https CA证书的验证">
+<meta property="og:url" content="http://yoursite.com/2017/01/06/iOS https CA证书的验证/index.html">
 <meta property="og:site_name" content="Insect">
-<meta property="og:description" content="KVOKVO(键值编码),提供了一种使用字符串而不是访问器方法去访问对象实例变量的机制。">
-<meta property="og:updated_time" content="2017-01-06T06:07:05.000Z">
+<meta property="og:description" content="App Transport SecurityiOS9新特性ATS，原HTTP请求会转向TLS1.2协议进行传输，意味着强制使用了HTTPS协议进行传输。">
+<meta property="og:updated_time" content="2017-02-05T03:28:23.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="KVO KVC 实现过程">
-<meta name="twitter:description" content="KVOKVO(键值编码),提供了一种使用字符串而不是访问器方法去访问对象实例变量的机制。">
+<meta name="twitter:title" content="iOS https CA证书的验证">
+<meta name="twitter:description" content="App Transport SecurityiOS9新特性ATS，原HTTP请求会转向TLS1.2协议进行传输，意味着强制使用了HTTPS协议进行传输。">
 
 
 
@@ -114,9 +114,9 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2016/12/23/KVO:KVC/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/01/06/iOS https CA证书的验证/"/>
 
-  <title> KVO KVC 实现过程 | Insect </title>
+  <title> iOS https CA证书的验证 | Insect </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="">
@@ -246,7 +246,7 @@
             
             
               
-                KVO KVC 实现过程
+                iOS https CA证书的验证
               
             
           </h1>
@@ -258,8 +258,8 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">Veröffentlicht am</span>
-            <time itemprop="dateCreated" datetime="2016-12-23T11:53:57+08:00" content="2016-12-23">
-              2016-12-23
+            <time itemprop="dateCreated" datetime="2017-01-06T10:28:38+08:00" content="2017-01-06">
+              2017-01-06
             </time>
           </span>
 
@@ -305,42 +305,98 @@
       
 
       
-        <h2 id="KVO"><a href="#KVO" class="headerlink" title="KVO"></a>KVO</h2><p>KVO(键值编码),提供了一种使用字符串而不是访问器方法去访问对象实例变量的机制。<br> <a id="more"></a></p>
-<h3 id="实现过程"><a href="#实现过程" class="headerlink" title="实现过程"></a>实现过程</h3><p> [object setValue: forKey:<key>]</key></p>
-<p> [object valueForKey:<key>]</key></p>
-<p> 通过runtime的动态能力，实现以下过程：</p>
-<p> 1.按顺序检测-get\<key>、-\<key>、-is\<key>、-_get\<key>、-_\<key>访问器方法，如果存在，使用访问器返回值。</key></key></key></key></key></p>
-<p> 2.按顺序检测-set\<key>、-_set\<key>、-setIs\<key>访问器方法，如果存在，使用访问器赋值。</key></key></key></p>
-<p> 3.如果未实现访问器方法，直接查找实例变量列表，按顺序检测变量名： _\<key>、\<key> 、_is\<key>、is\<key> 如果存在变量，直接进行访问。</key></key></key></key></p>
-<p> 4.如果仍未找到变量，调用valueForUndefinedKey:和setValue:forUndefinedKey:方法，默认实现会抛出异常。</p>
-<h3 id="集合操作"><a href="#集合操作" class="headerlink" title="集合操作"></a>集合操作</h3><p>  NSNumber *sum = [array valueForKeyPath:@”@sum.key”]; //求和</p>
-<p>  NSNumber *avg = [array valueForKeyPath:@”@avg.key”]; //平均值</p>
-<p>  NSNumber *max = [array valueForKeyPath:@”@max.key”]; //最大值</p>
-<p>  NSNumber *min = [array valueForKeyPath:@”@min.key”]; //最小值</p>
-<p>  NSArray *arr = [array valueForKeyPath:@”@unionOfObjects.name”]; //返回key path所指的对象集合</p>
-<p>  NSArray *arr = [array valueForKeyPath:@”@distinctUnionOfObjects.name”]; //返回去重后，key path所指的对象集合</p>
-<p>  NSArray *arr = [arrays valueForKeyPath:@”@distinctUnionOfArrays.name”]; //返回嵌套数组中key path所指的对象集合</p>
-<p>  NSArray *arr = [arrays valueForKeyPath:@”@unionOfArrays.name”]; //返回嵌套数组中去重后，key path所指的对象集合</p>
-<h2 id="KVC"><a href="#KVC" class="headerlink" title="KVC"></a>KVC</h2><h3 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h3><p>KVC(键值观察),提供了一种在修改对象属性时可以通知目标对象的机制。</p>
-<h3 id="实现过程-1"><a href="#实现过程-1" class="headerlink" title="实现过程"></a>实现过程</h3><p>[objct addObserver: forKeyPath: options: context:]</p>
-<p>[objct setValue: forKey:]</p>
-<p>当对象被观察，运行时系统会创建一个派生类：</p>
-<p>  1.重写class方法，返回继承类的class。</p>
-<p>  2.重写set方法，增加两个方法调用：</p>
-<pre><code>  - (void)willChangeValueForKey:(NSString *)key
-- (void)didChangeValueForKey:(NSString *)key
-</code></pre><p>当对象属性被修改时：</p>
-<p>  1.若有实现set方法，则在派生类重写的set方法中调用</p>
-<pre><code>  - (void)willChangeValueForKey:(NSString *)key
-- (void)didChangeValueForKey:(NSString *)key
-</code></pre><p>  2.若没有实现set方法，则直接在[objct setValue: forKey:]中调用</p>
-<pre><code>- (void)willChangeValueForKey:(NSString *)key
-- (void)didChangeValueForKey:(NSString *)key
-</code></pre><p>KVO被触发的时机：</p>
-<p>  1.调用[objct setValue: forKey:]</p>
-<p>  2.调用set方法</p>
-<p>  3.调用-willChangeValueForKey: 和 -didChangeValueForKey:</p>
+        <h2 id="App-Transport-Security"><a href="#App-Transport-Security" class="headerlink" title="App Transport Security"></a>App Transport Security</h2><p>iOS9新特性ATS，原HTTP请求会转向TLS1.2协议进行传输，意味着强制使用了HTTPS协议进行传输。<br><a id="more"></a></p>
+<h2 id="CA证书环境搭建"><a href="#CA证书环境搭建" class="headerlink" title="CA证书环境搭建"></a>CA证书环境搭建</h2><p>1.创建根证书私钥：openssl genrsa -des3 -out root.key<br>2.创建根证书申请文件：openssl req -new -key root.key -out root.csr<br>3.创建根证书：openssl x509 -req -days 3650 -sha1 -extensions v3_ca -signkey root.key -in root.csr -out root.crt<br>4.创建服务器证书私钥：openssl genrsa –des3 -out server.key 2048<br>5.创建服务器证书申请文件：openssl req -new -key server.key -out server.csr<br>6.创建服务器证书：openssl x509 -req -days 730 -sha1 -extensions v3_req -CA root.crt -CAkey root.key -CAcreateserial -in server.csr -out server.crt</p>
+<h2 id="证书的验证"><a href="#证书的验证" class="headerlink" title="证书的验证"></a>证书的验证</h2><p>在使用NSURLSession时，通过一下代理方法来进行证书的验证：</p>
+<pre><code>- (void)URLSession:(NSURLSession *)session didReceiveChallenge:(NSURLAuthenticationChallenge *)challenge completionHandler:(void (^)(NSURLSessionAuthChallengeDisposition, NSURLCredential * _Nullable))completionHandler {
 
+    NSURLCredential *cre = nil;
+    NSURLSessionAuthChallengeDisposition disposition = NSURLSessionAuthChallengePerformDefaultHandling;
+    SecTrustRef trust = challenge.protectionSpace.serverTrust;
+
+    // 1.判断是服务器认证
+    if ([challenge.protectionSpace.authenticationMethod isEqualToString:NSURLAuthenticationMethodServerTrust]) {
+
+        // 2.设置校验策略
+        NSMutableArray *policies = [NSMutableArray array];
+        NSString *domain = nil; // 域名
+        if (domain) {
+            // 域名校验
+            [policies addObject:(__bridge id)SecPolicyCreateSSL(true, (__bridge CFStringRef)domain)];
+        } else {
+            [policies addObject:(__bridge id)SecPolicyCreateBasicX509()];
+        }
+        SecTrustSetPolicies(trust, (__bridge CFArrayRef)policies);
+
+        // 3.获取本地证书 （工程里添加签发证书）
+        NSArray *paths = [[NSBundle mainBundle] pathsForResourcesOfType:@&quot;cer&quot; inDirectory:@&quot;.&quot;];
+        NSMutableArray *certificates = [NSMutableArray array];
+        NSMutableArray *certificatesData = [NSMutableArray array];
+        for (NSString *path in paths) {
+            NSData *certificateData = [NSData dataWithContentsOfFile:path];
+            [certificates addObject:(__bridge id)SecCertificateCreateWithData(NULL, (__bridge CFDataRef)certificateData)];
+            [certificatesData addObject:certificateData];
+        }
+
+        // 4.配置本地证书来验证服务器返回证书
+        SecTrustSetAnchorCertificates(trust, (__bridge CFArrayRef)certificates);
+
+        // 5.默认为YES,不会再使用系统内置根证书验证。设置NO，会使用系统内置证书验证。(该方法的设置放在，上面设置本地证书之后。)
+        SecTrustSetAnchorCertificatesOnly(trust,NO);
+
+        // 6.进行证书评估
+        SecTrustResultType result;
+        SecTrustEvaluate(trust, &amp;result);
+        bool isValid = (result == kSecTrustResultUnspecified || result == kSecTrustResultProceed);
+
+        cre = [NSURLCredential credentialForTrust:trust];
+
+        // NSURLSessionAuthChallengeUseCredential 使用证书
+        // NSURLSessionAuthChallengeCancelAuthenticationChallenge 取消请求
+        disposition = isValid ? NSURLSessionAuthChallengeUseCredential : NSURLSessionAuthChallengeCancelAuthenticationChallenge;
+
+    }
+
+    completionHandler(disposition,cre);
+}
+</code></pre><h2 id="AFNetworking-验证方式"><a href="#AFNetworking-验证方式" class="headerlink" title="AFNetworking 验证方式"></a>AFNetworking 验证方式</h2><h3 id="校验证书内容"><a href="#校验证书内容" class="headerlink" title="校验证书内容"></a>校验证书内容</h3><pre><code>case AFSSLPinningModeCertificate: {
+    NSMutableArray *pinnedCertificates = [NSMutableArray array];
+    for (NSData *certificateData in self.pinnedCertificates) {
+        [pinnedCertificates addObject:(__bridge_transfer id)SecCertificateCreateWithData(NULL, (__bridge CFDataRef)certificateData)];
+    }
+    SecTrustSetAnchorCertificates(serverTrust, (__bridge CFArrayRef)pinnedCertificates);
+
+    if (!AFServerTrustIsValid(serverTrust)) {
+        return NO;
+    }
+
+    // obtain the chain after being validated, which *should* contain the pinned certificate in the last position (if it&apos;s the Root CA)
+    NSArray *serverCertificates = AFCertificateTrustChainForServerTrust(serverTrust);
+
+    // 遍历证书链，对比证书内容
+    for (NSData *trustChainCertificate in [serverCertificates reverseObjectEnumerator]) {
+        if ([self.pinnedCertificates containsObject:trustChainCertificate]) {
+            return YES;
+        }
+    }
+
+    return NO;
+}
+</code></pre><h3 id="校验证书公钥"><a href="#校验证书公钥" class="headerlink" title="校验证书公钥"></a>校验证书公钥</h3><pre><code>case AFSSLPinningModePublicKey: {
+    NSUInteger trustedPublicKeyCount = 0;
+    NSArray *publicKeys = AFPublicKeyTrustChainForServerTrust(serverTrust);
+
+    // 遍历证书链，对比公钥
+    for (id trustChainPublicKey in publicKeys) {
+        for (id pinnedPublicKey in self.pinnedPublicKeys) {
+            if (AFSecKeyIsEqualToKey((__bridge SecKeyRef)trustChainPublicKey, (__bridge SecKeyRef)pinnedPublicKey)) {
+                trustedPublicKeyCount += 1;
+            }
+        }
+    }
+    return trustedPublicKeyCount &gt; 0;
+}
+</code></pre>
       
     </div>
 
@@ -362,7 +418,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/OC/" rel="tag">#OC</a>
+            <a href="/tags/oc/" rel="tag">#oc</a>
           
         </div>
       
@@ -371,16 +427,16 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/08/10/iOS消息机制/" rel="next" title="iOS 消息机制和转发过程">
-                <i class="fa fa-chevron-left"></i> iOS 消息机制和转发过程
+              <a href="/2016/12/23/KVO:KVC/" rel="next" title="KVO KVC 实现过程">
+                <i class="fa fa-chevron-left"></i> KVO KVC 实现过程
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/01/06/iOS https CA证书的验证/" rel="prev" title="iOS https CA证书的验证">
-                iOS https CA证书的验证 <i class="fa fa-chevron-right"></i>
+              <a href="/2017/02/05/iOS绘制性能/" rel="prev" title="QuartzCore 和 CoreGraphics">
+                QuartzCore 和 CoreGraphics <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -495,7 +551,7 @@
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#KVO"><span class="nav-number">1.</span> <span class="nav-text">KVO</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#实现过程"><span class="nav-number">1.1.</span> <span class="nav-text">实现过程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#集合操作"><span class="nav-number">1.2.</span> <span class="nav-text">集合操作</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#KVC"><span class="nav-number">2.</span> <span class="nav-text">KVC</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#概念"><span class="nav-number">2.1.</span> <span class="nav-text">概念</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实现过程-1"><span class="nav-number">2.2.</span> <span class="nav-text">实现过程</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#App-Transport-Security"><span class="nav-number">1.</span> <span class="nav-text">App Transport Security</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CA证书环境搭建"><span class="nav-number">2.</span> <span class="nav-text">CA证书环境搭建</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#证书的验证"><span class="nav-number">3.</span> <span class="nav-text">证书的验证</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#AFNetworking-验证方式"><span class="nav-number">4.</span> <span class="nav-text">AFNetworking 验证方式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#校验证书内容"><span class="nav-number">4.1.</span> <span class="nav-text">校验证书内容</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#校验证书公钥"><span class="nav-number">4.2.</span> <span class="nav-text">校验证书公钥</span></a></li></ol></li></ol></div>
             
           </div>
         </section>
