@@ -84,16 +84,19 @@
 
 
 
-<meta name="description" content="App Transport SecurityiOS9新特性ATS，原HTTP请求会转向TLS1.2协议进行传输，意味着强制使用了HTTPS协议进行传输。">
+<meta name="description" content="App Transport SecurityiOS9新特性ATS，原HTTP请求会转向TLS1.2协议进行传输，意味着强制使用了HTTPS协议进行传输。
+CA证书环境搭建1.创建根证书私钥：openssl genrsa -des3 -out root.key2.创建根证书申请文件：openssl req -new -key root.key -out root.csr3.创建根证书：openssl">
 <meta property="og:type" content="article">
 <meta property="og:title" content="iOS https CA证书的验证">
 <meta property="og:url" content="http://yoursite.com/2017/01/06/iOS https CA证书的验证/index.html">
 <meta property="og:site_name" content="Insect">
-<meta property="og:description" content="App Transport SecurityiOS9新特性ATS，原HTTP请求会转向TLS1.2协议进行传输，意味着强制使用了HTTPS协议进行传输。">
-<meta property="og:updated_time" content="2017-02-05T03:28:23.000Z">
+<meta property="og:description" content="App Transport SecurityiOS9新特性ATS，原HTTP请求会转向TLS1.2协议进行传输，意味着强制使用了HTTPS协议进行传输。
+CA证书环境搭建1.创建根证书私钥：openssl genrsa -des3 -out root.key2.创建根证书申请文件：openssl req -new -key root.key -out root.csr3.创建根证书：openssl">
+<meta property="og:updated_time" content="2017-02-15T07:18:42.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iOS https CA证书的验证">
-<meta name="twitter:description" content="App Transport SecurityiOS9新特性ATS，原HTTP请求会转向TLS1.2协议进行传输，意味着强制使用了HTTPS协议进行传输。">
+<meta name="twitter:description" content="App Transport SecurityiOS9新特性ATS，原HTTP请求会转向TLS1.2协议进行传输，意味着强制使用了HTTPS协议进行传输。
+CA证书环境搭建1.创建根证书私钥：openssl genrsa -des3 -out root.key2.创建根证书申请文件：openssl req -new -key root.key -out root.csr3.创建根证书：openssl">
 
 
 
@@ -305,7 +308,7 @@
       
 
       
-        <h2 id="App-Transport-Security"><a href="#App-Transport-Security" class="headerlink" title="App Transport Security"></a>App Transport Security</h2><p>iOS9新特性ATS，原HTTP请求会转向TLS1.2协议进行传输，意味着强制使用了HTTPS协议进行传输。<br><a id="more"></a></p>
+        <h2 id="App-Transport-Security"><a href="#App-Transport-Security" class="headerlink" title="App Transport Security"></a>App Transport Security</h2><p>iOS9新特性ATS，原HTTP请求会转向TLS1.2协议进行传输，意味着强制使用了HTTPS协议进行传输。</p>
 <h2 id="CA证书环境搭建"><a href="#CA证书环境搭建" class="headerlink" title="CA证书环境搭建"></a>CA证书环境搭建</h2><p>1.创建根证书私钥：openssl genrsa -des3 -out root.key<br>2.创建根证书申请文件：openssl req -new -key root.key -out root.csr<br>3.创建根证书：openssl x509 -req -days 3650 -sha1 -extensions v3_ca -signkey root.key -in root.csr -out root.crt<br>4.创建服务器证书私钥：openssl genrsa –des3 -out server.key 2048<br>5.创建服务器证书申请文件：openssl req -new -key server.key -out server.csr<br>6.创建服务器证书：openssl x509 -req -days 730 -sha1 -extensions v3_req -CA root.crt -CAkey root.key -CAcreateserial -in server.csr -out server.crt</p>
 <h2 id="证书的验证"><a href="#证书的验证" class="headerlink" title="证书的验证"></a>证书的验证</h2><p>在使用NSURLSession时，通过一下代理方法来进行证书的验证：</p>
 <pre><code>- (void)URLSession:(NSURLSession *)session didReceiveChallenge:(NSURLAuthenticationChallenge *)challenge completionHandler:(void (^)(NSURLSessionAuthChallengeDisposition, NSURLCredential * _Nullable))completionHandler {
@@ -505,7 +508,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">5</span>
+              <span class="site-state-item-count">6</span>
               <span class="site-state-item-name">Artikel</span>
             </a>
           </div>

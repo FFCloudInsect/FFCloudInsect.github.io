@@ -84,31 +84,22 @@
 
 
 
-<meta name="description" content="KVCKVC(键值编码),提供了一种使用字符串而不是访问器方法去访问对象实例变量的机制。
-实现过程 [object setValue: forKey:]
- [object valueForKey:]
- 通过runtime的动态能力，实现以下过程：
- 1.按顺序检测-get\、-\、-is\、-_get\、-_\访问器方法，如果存在，使用访问器返回值。
- 2.按顺序检测-set\、-_set\、-s">
+<meta name="description" content="图片解码通过 imageNamed 创建 UIImage ，并没有进行解码。直到第一次显示到屏幕上时，才进行图片解码。解码结果会保存在全局缓存中。通过 imageWithData 创建 UIImage ，也一样没进行解码，直到第一次绘制才会解码。不同的是，如果此时图片释放掉，则解码数据也会释放掉。
+图片解码会造成很大CPU占用，可以通过提前解码或者异步解码来优化。 
+通过 CGDataProvid">
 <meta property="og:type" content="article">
-<meta property="og:title" content="KVO KVC 实现过程">
-<meta property="og:url" content="http://yoursite.com/2016/12/23/KVO:KVC/index.html">
+<meta property="og:title" content="iOS图片解码绘制">
+<meta property="og:url" content="http://yoursite.com/2017/02/15/iOS图片解码绘制/index.html">
 <meta property="og:site_name" content="Insect">
-<meta property="og:description" content="KVCKVC(键值编码),提供了一种使用字符串而不是访问器方法去访问对象实例变量的机制。
-实现过程 [object setValue: forKey:]
- [object valueForKey:]
- 通过runtime的动态能力，实现以下过程：
- 1.按顺序检测-get\、-\、-is\、-_get\、-_\访问器方法，如果存在，使用访问器返回值。
- 2.按顺序检测-set\、-_set\、-s">
-<meta property="og:updated_time" content="2017-02-15T07:18:35.000Z">
+<meta property="og:description" content="图片解码通过 imageNamed 创建 UIImage ，并没有进行解码。直到第一次显示到屏幕上时，才进行图片解码。解码结果会保存在全局缓存中。通过 imageWithData 创建 UIImage ，也一样没进行解码，直到第一次绘制才会解码。不同的是，如果此时图片释放掉，则解码数据也会释放掉。
+图片解码会造成很大CPU占用，可以通过提前解码或者异步解码来优化。 
+通过 CGDataProvid">
+<meta property="og:updated_time" content="2017-02-15T07:18:25.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="KVO KVC 实现过程">
-<meta name="twitter:description" content="KVCKVC(键值编码),提供了一种使用字符串而不是访问器方法去访问对象实例变量的机制。
-实现过程 [object setValue: forKey:]
- [object valueForKey:]
- 通过runtime的动态能力，实现以下过程：
- 1.按顺序检测-get\、-\、-is\、-_get\、-_\访问器方法，如果存在，使用访问器返回值。
- 2.按顺序检测-set\、-_set\、-s">
+<meta name="twitter:title" content="iOS图片解码绘制">
+<meta name="twitter:description" content="图片解码通过 imageNamed 创建 UIImage ，并没有进行解码。直到第一次显示到屏幕上时，才进行图片解码。解码结果会保存在全局缓存中。通过 imageWithData 创建 UIImage ，也一样没进行解码，直到第一次绘制才会解码。不同的是，如果此时图片释放掉，则解码数据也会释放掉。
+图片解码会造成很大CPU占用，可以通过提前解码或者异步解码来优化。 
+通过 CGDataProvid">
 
 
 
@@ -129,9 +120,9 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2016/12/23/KVO:KVC/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/02/15/iOS图片解码绘制/"/>
 
-  <title> KVO KVC 实现过程 | Insect </title>
+  <title> iOS图片解码绘制 | Insect </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="">
@@ -261,7 +252,7 @@
             
             
               
-                KVO KVC 实现过程
+                iOS图片解码绘制
               
             
           </h1>
@@ -273,8 +264,8 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">Veröffentlicht am</span>
-            <time itemprop="dateCreated" datetime="2016-12-23T11:53:57+08:00" content="2016-12-23">
-              2016-12-23
+            <time itemprop="dateCreated" datetime="2017-02-15T14:57:26+08:00" content="2017-02-15">
+              2017-02-15
             </time>
           </span>
 
@@ -320,41 +311,50 @@
       
 
       
-        <h2 id="KVC"><a href="#KVC" class="headerlink" title="KVC"></a>KVC</h2><p>KVC(键值编码),提供了一种使用字符串而不是访问器方法去访问对象实例变量的机制。</p>
-<h3 id="实现过程"><a href="#实现过程" class="headerlink" title="实现过程"></a>实现过程</h3><p> [object setValue: forKey:<key>]</key></p>
-<p> [object valueForKey:<key>]</key></p>
-<p> 通过runtime的动态能力，实现以下过程：</p>
-<p> 1.按顺序检测-get\<key>、-\<key>、-is\<key>、-_get\<key>、-_\<key>访问器方法，如果存在，使用访问器返回值。</key></key></key></key></key></p>
-<p> 2.按顺序检测-set\<key>、-_set\<key>、-setIs\<key>访问器方法，如果存在，使用访问器赋值。</key></key></key></p>
-<p> 3.如果未实现访问器方法，直接查找实例变量列表，按顺序检测变量名： _\<key>、\<key> 、_is\<key>、is\<key> 如果存在变量，直接进行访问。</key></key></key></key></p>
-<p> 4.如果仍未找到变量，调用valueForUndefinedKey:和setValue:forUndefinedKey:方法，默认实现会抛出异常。</p>
-<h3 id="集合操作"><a href="#集合操作" class="headerlink" title="集合操作"></a>集合操作</h3><p>  NSNumber *sum = [array valueForKeyPath:@”@sum.key”]; //求和</p>
-<p>  NSNumber *avg = [array valueForKeyPath:@”@avg.key”]; //平均值</p>
-<p>  NSNumber *max = [array valueForKeyPath:@”@max.key”]; //最大值</p>
-<p>  NSNumber *min = [array valueForKeyPath:@”@min.key”]; //最小值</p>
-<p>  NSArray *arr = [array valueForKeyPath:@”@unionOfObjects.name”]; //返回key path所指的对象集合</p>
-<p>  NSArray *arr = [array valueForKeyPath:@”@distinctUnionOfObjects.name”]; //返回去重后，key path所指的对象集合</p>
-<p>  NSArray *arr = [arrays valueForKeyPath:@”@distinctUnionOfArrays.name”]; //返回嵌套数组中key path所指的对象集合</p>
-<p>  NSArray *arr = [arrays valueForKeyPath:@”@unionOfArrays.name”]; //返回嵌套数组中去重后，key path所指的对象集合</p>
-<h2 id="KVO"><a href="#KVO" class="headerlink" title="KVO"></a>KVO</h2><h3 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h3><p>KVO(键值观察),提供了一种在修改对象属性时可以通知目标对象的机制。</p>
-<h3 id="实现过程-1"><a href="#实现过程-1" class="headerlink" title="实现过程"></a>实现过程</h3><p>[objct addObserver: forKeyPath: options: context:]</p>
-<p>[objct setValue: forKey:]</p>
-<p>当对象被观察，运行时系统会创建一个派生类：</p>
-<p>  1.重写class方法，返回继承类的class。</p>
-<p>  2.重写set方法，增加两个方法调用：</p>
-<pre><code>- (void)willChangeValueForKey:(NSString *)key
-- (void)didChangeValueForKey:(NSString *)key
-</code></pre><p>当对象属性被修改时：</p>
-<p>  1.若有实现set方法，则在派生类重写的set方法中调用</p>
-<pre><code>- (void)willChangeValueForKey:(NSString *)key
-- (void)didChangeValueForKey:(NSString *)key
-</code></pre><p>  2.若没有实现set方法，则直接在[objct setValue: forKey:]中调用</p>
-<pre><code>- (void)willChangeValueForKey:(NSString *)key
-- (void)didChangeValueForKey:(NSString *)key
-</code></pre><p>KVO被触发的时机：</p>
-<p>  1.调用[objct setValue: forKey:]</p>
-<p>  2.调用set方法</p>
-<p>  3.调用-willChangeValueForKey: 和 -didChangeValueForKey:</p>
+        <h2 id="图片解码"><a href="#图片解码" class="headerlink" title="图片解码"></a>图片解码</h2><p>通过 imageNamed 创建 UIImage ，并没有进行解码。直到第一次显示到屏幕上时，才进行图片解码。解码结果会保存在全局缓存中。<br>通过 imageWithData 创建 UIImage ，也一样没进行解码，直到第一次绘制才会解码。不同的是，如果此时图片释放掉，则解码数据也会释放掉。</p>
+<p>图片解码会造成很大CPU占用，可以通过提前解码或者异步解码来优化。 </p>
+<h2 id="通过-CGDataProviderCopyData-解码"><a href="#通过-CGDataProviderCopyData-解码" class="headerlink" title="通过 CGDataProviderCopyData 解码"></a>通过 CGDataProviderCopyData 解码</h2><p>Image解码发生在 CGDataProviderCopyData 函数内部，因此可通过该函数进行解码。</p>
+<pre><code>CGImageRef imageRef
+
+// 获取图片属性
+size_t width = CGImageGetWidth(imageRef);
+size_t height = CGImageGetHeight(imageRef);
+CGColorSpaceRef space = CGImageGetColorSpace(imageRef);
+size_t bitsPerComponent = CGImageGetBitsPerComponent(imageRef);
+size_t bitsPerPixel = CGImageGetBitsPerPixel(imageRef);
+size_t bytesPerRow = CGImageGetBytesPerRow(imageRef);
+CGBitmapInfo bitmapInfo = CGImageGetBitmapInfo(imageRef);
+
+// 生成解码后CGDataProviderRef
+CGDataProviderRef dataProvider = CGImageGetDataProvider(imageRef);
+CFDataRef data = CGDataProviderCopyData(dataProvider);     // 解码
+CGDataProviderRef newProvider = CGDataProviderCreateWithCFData(data);
+
+// 生成解码后CGImageRef
+CGImageRef newImage = CGImageCreate(width, height, bitsPerComponent, bitsPerPixel, bytesPerRow, space, bitmapInfo, newProvider, NULL, false, kCGRenderingIntentDefault);
+
+CFRelease(data);
+CFRelease(newProvider);
+</code></pre><h2 id="画布重绘解码"><a href="#画布重绘解码" class="headerlink" title="画布重绘解码"></a>画布重绘解码</h2><p>把图片用 CGContextDrawImage() 绘制到画布上，然后把画布的数据取出来当作图片。</p>
+<pre><code>CGImageRef imageRef
+
+size_t width = CGImageGetWidth(imageRef);
+size_t height = CGImageGetHeight(imageRef);
+CGBitmapInfo bitmapInfo = kCGBitmapByteOrder32Host;
+bitmapInfo |= hasAlpha ? kCGImageAlphaPremultipliedFirst : kCGImageAlphaNoneSkipFirst;
+CGColorSpaceRef space ;
+dispatch_once(&amp;onceToken, ^{
+   space = CGColorSpaceCreateDeviceRGB();
+});
+
+// same as UIGraphicsBeginImageContext() and -[UIView drawRect:]
+CGContextRef context = CGBitmapContextCreate(NULL, width, height, 8, 0, space, bitmapInfo);     // 创建上下文
+CGContextDrawImage(context, CGRectMake(0, 0, width, height), imageRef);     // 绘制解码
+CGImageRef newImage = CGBitmapContextCreateImage(context);     // 生成解码后图片
+
+CFRelease(context);
+</code></pre><h2 id="图片渐进显示"><a href="#图片渐进显示" class="headerlink" title="图片渐进显示"></a>图片渐进显示</h2><p>使用一下方式图片能有很好的渐进显示效果：</p>
+<p>首先用 CGImageSourceCreateIncremental(NULL) 创建一个空的图片源<br>随后在获得新数据时调用CGImageSourceUpdateData(data, false) 来更新图片源<br>最后在用 CGImageSourceCreateImageAtIndex() 创建图片来显示</p>
 
       
     </div>
@@ -386,17 +386,13 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/08/10/iOS消息机制/" rel="next" title="iOS 消息机制和转发过程">
-                <i class="fa fa-chevron-left"></i> iOS 消息机制和转发过程
+              <a href="/2017/02/05/iOS绘制性能/" rel="next" title="QuartzCore 和 CoreGraphics">
+                <i class="fa fa-chevron-left"></i> QuartzCore 和 CoreGraphics
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/01/06/iOS https CA证书的验证/" rel="prev" title="iOS https CA证书的验证">
-                iOS https CA证书的验证 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -510,7 +506,7 @@
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#KVC"><span class="nav-number">1.</span> <span class="nav-text">KVC</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#实现过程"><span class="nav-number">1.1.</span> <span class="nav-text">实现过程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#集合操作"><span class="nav-number">1.2.</span> <span class="nav-text">集合操作</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#KVO"><span class="nav-number">2.</span> <span class="nav-text">KVO</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#概念"><span class="nav-number">2.1.</span> <span class="nav-text">概念</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实现过程-1"><span class="nav-number">2.2.</span> <span class="nav-text">实现过程</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#图片解码"><span class="nav-number">1.</span> <span class="nav-text">图片解码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#通过-CGDataProviderCopyData-解码"><span class="nav-number">2.</span> <span class="nav-text">通过 CGDataProviderCopyData 解码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#画布重绘解码"><span class="nav-number">3.</span> <span class="nav-text">画布重绘解码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#图片渐进显示"><span class="nav-number">4.</span> <span class="nav-text">图片渐进显示</span></a></li></ol></div>
             
           </div>
         </section>
