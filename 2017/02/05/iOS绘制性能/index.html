@@ -84,19 +84,19 @@
 
 
 
-<meta name="description" content="对比使用 Core Graphics 绘图效率较低，并且会消耗较多内存。一般在CALayer的-drawLayer:inContext:方法或者UIView中的-drawRect:方法中，每次绘制图层都会创建一个绘制上下文，上下文所需的内存大小:图层宽  图层高  4字节。重绘视图的代价比较昂贵，所以尽量避免重新绘制视图。
-如果只是使用CALayer直接赋值给contents属性一张图片，来进行绘">
+<meta name="description" content="对比使用CoreGraphics绘图效率较低，并且会消耗较多内存。一般在CALayer的-drawLayer:inContext:方法或者UIView中的-drawRect:方法中，每次绘制图层都会创建一个绘制上下文，上下文所需的内存大小:图层宽  图层高  4字节。重绘视图的代价比较昂贵，所以尽量避免重新绘制视图。
+如果只是使用CALayer直接赋值给contents属性一张图片，来进行绘制，不">
 <meta property="og:type" content="article">
 <meta property="og:title" content="QuartzCore 和 CoreGraphics">
 <meta property="og:url" content="http://yoursite.com/2017/02/05/iOS绘制性能/index.html">
 <meta property="og:site_name" content="Insect">
-<meta property="og:description" content="对比使用 Core Graphics 绘图效率较低，并且会消耗较多内存。一般在CALayer的-drawLayer:inContext:方法或者UIView中的-drawRect:方法中，每次绘制图层都会创建一个绘制上下文，上下文所需的内存大小:图层宽  图层高  4字节。重绘视图的代价比较昂贵，所以尽量避免重新绘制视图。
-如果只是使用CALayer直接赋值给contents属性一张图片，来进行绘">
-<meta property="og:updated_time" content="2017-02-15T07:11:52.000Z">
+<meta property="og:description" content="对比使用CoreGraphics绘图效率较低，并且会消耗较多内存。一般在CALayer的-drawLayer:inContext:方法或者UIView中的-drawRect:方法中，每次绘制图层都会创建一个绘制上下文，上下文所需的内存大小:图层宽  图层高  4字节。重绘视图的代价比较昂贵，所以尽量避免重新绘制视图。
+如果只是使用CALayer直接赋值给contents属性一张图片，来进行绘制，不">
+<meta property="og:updated_time" content="2017-02-15T07:24:35.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="QuartzCore 和 CoreGraphics">
-<meta name="twitter:description" content="对比使用 Core Graphics 绘图效率较低，并且会消耗较多内存。一般在CALayer的-drawLayer:inContext:方法或者UIView中的-drawRect:方法中，每次绘制图层都会创建一个绘制上下文，上下文所需的内存大小:图层宽  图层高  4字节。重绘视图的代价比较昂贵，所以尽量避免重新绘制视图。
-如果只是使用CALayer直接赋值给contents属性一张图片，来进行绘">
+<meta name="twitter:description" content="对比使用CoreGraphics绘图效率较低，并且会消耗较多内存。一般在CALayer的-drawLayer:inContext:方法或者UIView中的-drawRect:方法中，每次绘制图层都会创建一个绘制上下文，上下文所需的内存大小:图层宽  图层高  4字节。重绘视图的代价比较昂贵，所以尽量避免重新绘制视图。
+如果只是使用CALayer直接赋值给contents属性一张图片，来进行绘制，不">
 
 
 
@@ -308,10 +308,10 @@
       
 
       
-        <h2 id="对比"><a href="#对比" class="headerlink" title="对比"></a>对比</h2><p>使用 Core Graphics 绘图效率较低，并且会消耗较多内存。一般在CALayer的-drawLayer:inContext:方法或者UIView中的-drawRect:方法中，每次绘制图层都会创建一个绘制上下文，上下文所需的内存大小:图层宽 <em> 图层高 </em> 4字节。重绘视图的代价比较昂贵，所以尽量避免重新绘制视图。</p>
+        <h2 id="对比"><a href="#对比" class="headerlink" title="对比"></a>对比</h2><p>使用CoreGraphics绘图效率较低，并且会消耗较多内存。一般在CALayer的-drawLayer:inContext:方法或者UIView中的-drawRect:方法中，每次绘制图层都会创建一个绘制上下文，上下文所需的内存大小:图层宽 <em> 图层高 </em> 4字节。重绘视图的代价比较昂贵，所以尽量避免重新绘制视图。</p>
 <p>如果只是使用CALayer直接赋值给contents属性一张图片，来进行绘制，不会消耗过多的内存，并且同一张图片被多个图层作为contents属性，他们会公用一块内存。</p>
-<h2 id="Core-Graphics"><a href="#Core-Graphics" class="headerlink" title="Core Graphics"></a>Core Graphics</h2><p>Core Graphics 绘制层次较多、内容较复杂的情况下使用。</p>
-<p>提升 Core Graphics 绘制性能，-setNeedsDisplay每次都会对整个区域进行重新绘制，可使用-setNeedsDisplayInRect:，使用该方法标记需要的重绘区域，避免每次重复绘制没有变动的区域。</p>
+<h2 id="Core-Graphics"><a href="#Core-Graphics" class="headerlink" title="Core Graphics"></a>Core Graphics</h2><p>CoreGraphics绘制层次较多、内容较复杂的情况下使用。</p>
+<p>提升CoreGraphics绘制性能，-setNeedsDisplay每次都会对整个区域进行重新绘制，可使用-setNeedsDisplayInRect:，使用该方法标记需要的重绘区域，避免每次重复绘制没有变动的区域。</p>
 <h2 id="QuartzCore"><a href="#QuartzCore" class="headerlink" title="QuartzCore"></a>QuartzCore</h2><p>QuartzCore 提供了些不同绘制类型的图层类，并提供了硬件支持。<br>如果想自定义view的图层类型，实现UIView的+(class) layerClass{}函数。</p>
 <pre><code>+ (Class)layerClass {
     return [CAShapeLayer class];
