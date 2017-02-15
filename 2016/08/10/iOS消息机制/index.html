@@ -94,7 +94,7 @@ OC的函数调用抽象为消息发送的形式，由于是在运行时发生的
 <meta property="og:description" content="对iOS消息机制和转发过程的知识进行梳理和总结。希望能帮助有需要的朋友重新学习一下这方面的知识。
 消息机制概念：消息机制是在RunTime中很重要的一部分，是系统运行时的重要机制。
 OC的函数调用抽象为消息发送的形式，由于是在运行时发生的所以这个过程是动态调用。这点和C语言不同，C的函数调用以及顺序都是在编译时完成。而OC在编译阶段只是通过方法选择器selector（SEL）进行检测，只要有申明该">
-<meta property="og:updated_time" content="2017-02-05T09:56:15.000Z">
+<meta property="og:updated_time" content="2017-02-15T07:21:24.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iOS 消息机制和转发过程">
 <meta name="twitter:description" content="对iOS消息机制和转发过程的知识进行梳理和总结。希望能帮助有需要的朋友重新学习一下这方面的知识。
@@ -313,7 +313,7 @@ OC的函数调用抽象为消息发送的形式，由于是在运行时发生的
       
         <p>对iOS消息机制和转发过程的知识进行梳理和总结。希望能帮助有需要的朋友重新学习一下这方面的知识。</p>
 <h2 id="消息机制"><a href="#消息机制" class="headerlink" title="消息机制"></a>消息机制</h2><h3 id="概念："><a href="#概念：" class="headerlink" title="概念："></a>概念：</h3><p>消息机制是在RunTime中很重要的一部分，是系统运行时的重要机制。</p>
-<p>OC的函数调用抽象为消息发送的形式，由于是在运行时发生的所以这个过程是动态调用。这点和C语言不同，C的函数调用以及顺序都是在编译时完成。而OC在编译阶段只是通过方法选择器selector（SEL）进行检测，只要有申明该方法就会编译通过。但OC函数的构成出了SEL，还由一个implement (IML) 组成，IML才是真正的函数实现。所以真正的函数调用，是在运行时根据SEL找到IML进行调用。<br><a id="more"></a></p>
+<p>OC的函数调用抽象为消息发送的形式，由于是在运行时发生的所以这个过程是动态调用。这点和C语言不同，C的函数调用以及顺序都是在编译时完成。而OC在编译阶段只是通过方法选择器selector（SEL）进行检测，只要有申明该方法就会编译通过。但OC函数的构成出了SEL，还由一个implement (IML) 组成，IML才是真正的函数实现。所以真正的函数调用，是在运行时根据SEL找到IML进行调用。</p>
 <h3 id="消息发送过程："><a href="#消息发送过程：" class="headerlink" title="消息发送过程："></a>消息发送过程：</h3><ol>
 <li>[obj method] 转化为 objc_megSend(obj,@selector(method)) </li>
 <li>通过obj的isa指针找到对应的class。然后先去class的cashe中，通过SEL查找对应的函数method。若cache中未找到，再去方法列表methodlist中查找。若也没找到，再去superClass中以同样的顺序查找。</li>
