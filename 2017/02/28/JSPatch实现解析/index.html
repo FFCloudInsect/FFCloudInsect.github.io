@@ -84,19 +84,31 @@
 
 
 
-<meta name="description" content="App Transport SecurityiOS9新特性ATS，原HTTP请求会转向TLS1.2协议进行传输，意味着强制使用了HTTPS协议进行传输。
-CA证书环境搭建1.创建根证书私钥：openssl genrsa -des3 -out root.key2.创建根证书申请文件：openssl req -new -key root.key -out root.csr3.创建根证书：openssl">
+<meta name="description" content="JSPatch轻量级的线上热更方案，通过加载js代码实现热更。
+JSPatch使用集成JSPatch
+添加JSPatch，只有三个文件 https://github.com/bang590/JSPatch/tree/master/JSPatch
+添加JS热更代码，JS代码编写规则详细参考 https://github.com/bang590/JSPatch/wiki
+代码加载：
+-(BOOL)ap">
 <meta property="og:type" content="article">
-<meta property="og:title" content="iOS https CA证书的验证">
-<meta property="og:url" content="http://yoursite.com/2017/01/06/iOS https CA证书的验证/index.html">
+<meta property="og:title" content="JSPatch实现解析">
+<meta property="og:url" content="http://yoursite.com/2017/02/28/JSPatch实现解析/index.html">
 <meta property="og:site_name" content="Insect">
-<meta property="og:description" content="App Transport SecurityiOS9新特性ATS，原HTTP请求会转向TLS1.2协议进行传输，意味着强制使用了HTTPS协议进行传输。
-CA证书环境搭建1.创建根证书私钥：openssl genrsa -des3 -out root.key2.创建根证书申请文件：openssl req -new -key root.key -out root.csr3.创建根证书：openssl">
-<meta property="og:updated_time" content="2017-02-15T07:18:42.000Z">
+<meta property="og:description" content="JSPatch轻量级的线上热更方案，通过加载js代码实现热更。
+JSPatch使用集成JSPatch
+添加JSPatch，只有三个文件 https://github.com/bang590/JSPatch/tree/master/JSPatch
+添加JS热更代码，JS代码编写规则详细参考 https://github.com/bang590/JSPatch/wiki
+代码加载：
+-(BOOL)ap">
+<meta property="og:updated_time" content="2017-02-28T10:55:55.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="iOS https CA证书的验证">
-<meta name="twitter:description" content="App Transport SecurityiOS9新特性ATS，原HTTP请求会转向TLS1.2协议进行传输，意味着强制使用了HTTPS协议进行传输。
-CA证书环境搭建1.创建根证书私钥：openssl genrsa -des3 -out root.key2.创建根证书申请文件：openssl req -new -key root.key -out root.csr3.创建根证书：openssl">
+<meta name="twitter:title" content="JSPatch实现解析">
+<meta name="twitter:description" content="JSPatch轻量级的线上热更方案，通过加载js代码实现热更。
+JSPatch使用集成JSPatch
+添加JSPatch，只有三个文件 https://github.com/bang590/JSPatch/tree/master/JSPatch
+添加JS热更代码，JS代码编写规则详细参考 https://github.com/bang590/JSPatch/wiki
+代码加载：
+-(BOOL)ap">
 
 
 
@@ -117,9 +129,9 @@ CA证书环境搭建1.创建根证书私钥：openssl genrsa -des3 -out root.key
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/01/06/iOS https CA证书的验证/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/02/28/JSPatch实现解析/"/>
 
-  <title> iOS https CA证书的验证 | Insect </title>
+  <title> JSPatch实现解析 | Insect </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="">
@@ -249,7 +261,7 @@ CA证书环境搭建1.创建根证书私钥：openssl genrsa -des3 -out root.key
             
             
               
-                iOS https CA证书的验证
+                JSPatch实现解析
               
             
           </h1>
@@ -261,8 +273,8 @@ CA证书环境搭建1.创建根证书私钥：openssl genrsa -des3 -out root.key
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">Veröffentlicht am</span>
-            <time itemprop="dateCreated" datetime="2017-01-06T10:28:38+08:00" content="2017-01-06">
-              2017-01-06
+            <time itemprop="dateCreated" datetime="2017-02-28T17:04:12+08:00" content="2017-02-28">
+              2017-02-28
             </time>
           </span>
 
@@ -308,98 +320,62 @@ CA证书环境搭建1.创建根证书私钥：openssl genrsa -des3 -out root.key
       
 
       
-        <h2 id="App-Transport-Security"><a href="#App-Transport-Security" class="headerlink" title="App Transport Security"></a>App Transport Security</h2><p>iOS9新特性ATS，原HTTP请求会转向TLS1.2协议进行传输，意味着强制使用了HTTPS协议进行传输。</p>
-<h2 id="CA证书环境搭建"><a href="#CA证书环境搭建" class="headerlink" title="CA证书环境搭建"></a>CA证书环境搭建</h2><p>1.创建根证书私钥：openssl genrsa -des3 -out root.key<br>2.创建根证书申请文件：openssl req -new -key root.key -out root.csr<br>3.创建根证书：openssl x509 -req -days 3650 -sha1 -extensions v3_ca -signkey root.key -in root.csr -out root.crt<br>4.创建服务器证书私钥：openssl genrsa –des3 -out server.key 2048<br>5.创建服务器证书申请文件：openssl req -new -key server.key -out server.csr<br>6.创建服务器证书：openssl x509 -req -days 730 -sha1 -extensions v3_req -CA root.crt -CAkey root.key -CAcreateserial -in server.csr -out server.crt</p>
-<h2 id="证书的验证"><a href="#证书的验证" class="headerlink" title="证书的验证"></a>证书的验证</h2><p>在使用NSURLSession时，通过一下代理方法来进行证书的验证：</p>
-<pre><code>- (void)URLSession:(NSURLSession *)session didReceiveChallenge:(NSURLAuthenticationChallenge *)challenge completionHandler:(void (^)(NSURLSessionAuthChallengeDisposition, NSURLCredential * _Nullable))completionHandler {
-
-    NSURLCredential *cre = nil;
-    NSURLSessionAuthChallengeDisposition disposition = NSURLSessionAuthChallengePerformDefaultHandling;
-    SecTrustRef trust = challenge.protectionSpace.serverTrust;
-
-    // 1.判断是服务器认证
-    if ([challenge.protectionSpace.authenticationMethod isEqualToString:NSURLAuthenticationMethodServerTrust]) {
-
-        // 2.设置校验策略
-        NSMutableArray *policies = [NSMutableArray array];
-        NSString *domain = nil; // 域名
-        if (domain) {
-            // 域名校验
-            [policies addObject:(__bridge id)SecPolicyCreateSSL(true, (__bridge CFStringRef)domain)];
-        } else {
-            [policies addObject:(__bridge id)SecPolicyCreateBasicX509()];
-        }
-        SecTrustSetPolicies(trust, (__bridge CFArrayRef)policies);
-
-        // 3.获取本地证书 （工程里添加签发证书）
-        NSArray *paths = [[NSBundle mainBundle] pathsForResourcesOfType:@&quot;cer&quot; inDirectory:@&quot;.&quot;];
-        NSMutableArray *certificates = [NSMutableArray array];
-        NSMutableArray *certificatesData = [NSMutableArray array];
-        for (NSString *path in paths) {
-            NSData *certificateData = [NSData dataWithContentsOfFile:path];
-            [certificates addObject:(__bridge id)SecCertificateCreateWithData(NULL, (__bridge CFDataRef)certificateData)];
-            [certificatesData addObject:certificateData];
-        }
-
-        // 4.配置本地证书来验证服务器返回证书
-        SecTrustSetAnchorCertificates(trust, (__bridge CFArrayRef)certificates);
-
-        // 5.默认为YES,不会再使用系统内置根证书验证。设置NO，会使用系统内置证书验证。(该方法的设置放在，上面设置本地证书之后。)
-        SecTrustSetAnchorCertificatesOnly(trust,NO);
-
-        // 6.进行证书评估
-        SecTrustResultType result;
-        SecTrustEvaluate(trust, &amp;result);
-        bool isValid = (result == kSecTrustResultUnspecified || result == kSecTrustResultProceed);
-
-        cre = [NSURLCredential credentialForTrust:trust];
-
-        // NSURLSessionAuthChallengeUseCredential 使用证书
-        // NSURLSessionAuthChallengeCancelAuthenticationChallenge 取消请求
-        disposition = isValid ? NSURLSessionAuthChallengeUseCredential : NSURLSessionAuthChallengeCancelAuthenticationChallenge;
-
-    }
-
-    completionHandler(disposition,cre);
+        <p>JSPatch轻量级的线上热更方案，通过加载js代码实现热更。</p>
+<h2 id="JSPatch使用"><a href="#JSPatch使用" class="headerlink" title="JSPatch使用"></a>JSPatch使用</h2><h3 id="集成JSPatch"><a href="#集成JSPatch" class="headerlink" title="集成JSPatch"></a>集成JSPatch</h3><ol>
+<li>添加JSPatch，只有三个文件 <a href="https://github.com/bang590/JSPatch/tree/master/JSPatch" target="_blank" rel="external">https://github.com/bang590/JSPatch/tree/master/JSPatch</a></li>
+<li>添加JS热更代码，JS代码编写规则详细参考 <a href="https://github.com/bang590/JSPatch/wiki" target="_blank" rel="external">https://github.com/bang590/JSPatch/wiki</a></li>
+<li><p>代码加载：</p>
+<pre><code>-(BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:        (NSDictionary *)launchOptions 
+{
+    [JPEngine startEngine];
+    NSString *sourcePath = [[NSBundle mainBundle] pathForResource:@&quot;demo&quot; ofType:@&quot;js&quot;];
+    NSString *script = [NSString stringWithContentsOfFile:sourcePath encoding:NSUTF8StringEncoding error:nil];
+    [JPEngine evaluateScript:script];
 }
-</code></pre><h2 id="AFNetworking-验证方式"><a href="#AFNetworking-验证方式" class="headerlink" title="AFNetworking 验证方式"></a>AFNetworking 验证方式</h2><h3 id="校验证书内容"><a href="#校验证书内容" class="headerlink" title="校验证书内容"></a>校验证书内容</h3><pre><code>case AFSSLPinningModeCertificate: {
-    NSMutableArray *pinnedCertificates = [NSMutableArray array];
-    for (NSData *certificateData in self.pinnedCertificates) {
-        [pinnedCertificates addObject:(__bridge_transfer id)SecCertificateCreateWithData(NULL, (__bridge CFDataRef)certificateData)];
-    }
-    SecTrustSetAnchorCertificates(serverTrust, (__bridge CFArrayRef)pinnedCertificates);
-
-    if (!AFServerTrustIsValid(serverTrust)) {
-        return NO;
-    }
-
-    // obtain the chain after being validated, which *should* contain the pinned certificate in the last position (if it&apos;s the Root CA)
-    NSArray *serverCertificates = AFCertificateTrustChainForServerTrust(serverTrust);
-
-    // 遍历证书链，对比证书内容
-    for (NSData *trustChainCertificate in [serverCertificates reverseObjectEnumerator]) {
-        if ([self.pinnedCertificates containsObject:trustChainCertificate]) {
-            return YES;
-        }
-    }
-
-    return NO;
+</code></pre></li>
+</ol>
+<h2 id="JSPatch实现解析"><a href="#JSPatch实现解析" class="headerlink" title="JSPatch实现解析"></a>JSPatch实现解析</h2><h3 id="JS调用OC函数"><a href="#JS调用OC函数" class="headerlink" title="JS调用OC函数"></a>JS调用OC函数</h3><pre><code>  require(&apos;UIView&apos;)
+var view = UIView.alloc().init()
+view.setBackgroundColor(require(&apos;UIColor&apos;).grayColor())
+view.setAlpha(0.5)
+</code></pre><ul>
+<li>使用require(‘UIView’)函数加类名，创建对应实例。</li>
+<li><p>方法调用书写时直接使用方法名加参数，该段JS执行前会使用正则将方法调用改成 __c() 函数。</p>
+<pre><code>UIView.alloc().init() -&gt; UIView.__c(&apos;alloc&apos;)().__c(&apos;init&apos;)()
+</code></pre></li>
+<li><p>__c()函数会将类名、对象指针、方法名、参数传递给OC。</p>
+<pre><code>__c = function(methodName) {
+    return _methodFunc(self.__obj, self.__clsName, methodName, args,             self.__isSuper)
 }
-</code></pre><h3 id="校验证书公钥"><a href="#校验证书公钥" class="headerlink" title="校验证书公钥"></a>校验证书公钥</h3><pre><code>case AFSSLPinningModePublicKey: {
-    NSUInteger trustedPublicKeyCount = 0;
-    NSArray *publicKeys = AFPublicKeyTrustChainForServerTrust(serverTrust);
 
-    // 遍历证书链，对比公钥
-    for (id trustChainPublicKey in publicKeys) {
-        for (id pinnedPublicKey in self.pinnedPublicKeys) {
-            if (AFSecKeyIsEqualToKey((__bridge SecKeyRef)trustChainPublicKey, (__bridge SecKeyRef)pinnedPublicKey)) {
-                trustedPublicKeyCount += 1;
-            }
-        }
-    }
-    return trustedPublicKeyCount &gt; 0;
+_methodFunc = function(instance, clsName, methodName, args, isSuper, isPerformSelector) {
+    var ret = instance ? _OC_callI(instance, selectorName, args, isSuper):
+                 _OC_callC(clsName, selectorName, args)
+  }
+</code></pre></li>
+<li><p>_OC_callI使用JSContext在OC里实现：</p>
+<pre><code>  JSContext *context = [[JSContext alloc] init];
+  context[@&quot;_OC_callI&quot;] = ^id(JSValue *obj, NSString *selectorName, JSValue     *arguments, BOOL isSuper) {
+return callSelector(nil, selectorName, arguments, obj, isSuper);
+};
+</code></pre></li>
+<li><p>callSelector函数里获得了所以OC方法调用需要的参数，最终使用NSInvocation调用OC函数。</p>
+</li>
+</ul>
+<h3 id="OC调用JS函数（以方法替换为例）"><a href="#OC调用JS函数（以方法替换为例）" class="headerlink" title="OC调用JS函数（以方法替换为例）"></a>OC调用JS函数（以方法替换为例）</h3><pre><code>defineClass(&quot;JPViewController&quot;, {
+      viewDidLoad: function() {
+        ...
+      }
 }
-</code></pre>
+</code></pre><ul>
+<li>defineClass同样使用JSContext实现于OC，该函数会将对应类的对应方法的IMP指向_objc_msgForward，让方法调用走消息转发，并更改forwardInvocation实现。</li>
+<li><p>保存旧方法到ORIG_selectname,保存新方法到全局字典：</p>
+<pre><code>static NSMutableDictionary *_JSOverideMethods;
+</code></pre></li>
+<li><p>最终在forwardInvocation里从全局字典里获取对应方法的JSValue，使用[JSValue callWithArguments:]调用JS函数。</p>
+</li>
+</ul>
+
       
     </div>
 
@@ -430,17 +406,13 @@ CA证书环境搭建1.创建根证书私钥：openssl genrsa -des3 -out root.key
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/12/23/KVO:KVC/" rel="next" title="KVO KVC 实现过程">
-                <i class="fa fa-chevron-left"></i> KVO KVC 实现过程
+              <a href="/2017/02/15/iOS图片解码绘制/" rel="next" title="iOS图片解码绘制">
+                <i class="fa fa-chevron-left"></i> iOS图片解码绘制
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/02/05/iOS绘制性能/" rel="prev" title="QuartzCore 和 CoreGraphics">
-                QuartzCore 和 CoreGraphics <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -554,7 +526,7 @@ CA证书环境搭建1.创建根证书私钥：openssl genrsa -des3 -out root.key
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#App-Transport-Security"><span class="nav-number">1.</span> <span class="nav-text">App Transport Security</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CA证书环境搭建"><span class="nav-number">2.</span> <span class="nav-text">CA证书环境搭建</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#证书的验证"><span class="nav-number">3.</span> <span class="nav-text">证书的验证</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#AFNetworking-验证方式"><span class="nav-number">4.</span> <span class="nav-text">AFNetworking 验证方式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#校验证书内容"><span class="nav-number">4.1.</span> <span class="nav-text">校验证书内容</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#校验证书公钥"><span class="nav-number">4.2.</span> <span class="nav-text">校验证书公钥</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#JSPatch使用"><span class="nav-number">1.</span> <span class="nav-text">JSPatch使用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#集成JSPatch"><span class="nav-number">1.1.</span> <span class="nav-text">集成JSPatch</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JSPatch实现解析"><span class="nav-number">2.</span> <span class="nav-text">JSPatch实现解析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#JS调用OC函数"><span class="nav-number">2.1.</span> <span class="nav-text">JS调用OC函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#OC调用JS函数（以方法替换为例）"><span class="nav-number">2.2.</span> <span class="nav-text">OC调用JS函数（以方法替换为例）</span></a></li></ol></li></ol></div>
             
           </div>
         </section>
