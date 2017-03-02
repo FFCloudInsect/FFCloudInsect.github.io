@@ -100,7 +100,7 @@ JSPatch使用集成JSPatch
 添加JS热更代码，JS代码编写规则详细参考 https://github.com/bang590/JSPatch/wiki
 代码加载：
 -(BOOL)ap">
-<meta property="og:updated_time" content="2017-03-01T01:09:12.000Z">
+<meta property="og:updated_time" content="2017-03-02T01:48:40.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JSPatch实现解析">
 <meta name="twitter:description" content="JSPatch轻量级的线上热更方案，通过加载js代码实现热更。
@@ -189,7 +189,7 @@ JSPatch使用集成JSPatch
             
               <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
             
-            Home
+            Startseite
           </a>
         </li>
       
@@ -199,7 +199,7 @@ JSPatch使用集成JSPatch
             
               <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
             
-            Categories
+            Kategorien
           </a>
         </li>
       
@@ -209,7 +209,7 @@ JSPatch使用集成JSPatch
             
               <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
             
-            Archives
+            Archiv
           </a>
         </li>
       
@@ -272,7 +272,7 @@ JSPatch使用集成JSPatch
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Posted on</span>
+            <span class="post-meta-item-text">Veröffentlicht am</span>
             <time itemprop="dateCreated" datetime="2017-02-28T17:04:12+08:00" content="2017-02-28">
               2017-02-28
             </time>
@@ -284,7 +284,7 @@ JSPatch使用集成JSPatch
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
               </span>
-              <span class="post-meta-item-text">In</span>
+              <span class="post-meta-item-text">in</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
                   <a href="/categories/iOS/" itemprop="url" rel="index">
@@ -338,7 +338,7 @@ JSPatch使用集成JSPatch
 var view = UIView.alloc().init()
 view.setBackgroundColor(require(&apos;UIColor&apos;).grayColor())
 view.setAlpha(0.5)
-</code></pre><ul>
+</code></pre><ol>
 <li>使用require(‘UIView’)函数加类名，创建对应实例。</li>
 <li><p>方法调用书写时直接使用方法名加参数，该段JS执行前会使用正则将方法调用改成 __c() 函数。</p>
 <pre><code>UIView.alloc().init() -&gt; UIView.__c(&apos;alloc&apos;)().__c(&apos;init&apos;)()
@@ -361,20 +361,20 @@ return callSelector(nil, selectorName, arguments, obj, isSuper);
 </code></pre></li>
 <li><p>callSelector函数里获得了所有OC方法调用需要的参数，最终使用NSInvocation调用OC函数。</p>
 </li>
-</ul>
+</ol>
 <h3 id="OC调用JS函数（以方法替换为例）"><a href="#OC调用JS函数（以方法替换为例）" class="headerlink" title="OC调用JS函数（以方法替换为例）"></a>OC调用JS函数（以方法替换为例）</h3><pre><code>defineClass(&quot;JPViewController&quot;, {
       viewDidLoad: function() {
         ...
       }
 }
-</code></pre><ul>
+</code></pre><ol>
 <li>defineClass同样使用JSContext实现于OC，该函数会将对应类的对应方法的IMP指向_objc_msgForward，让方法调用走消息转发，并更改forwardInvocation实现。</li>
 <li><p>保存旧方法到ORIG_selectname,保存新方法到全局字典：</p>
 <pre><code>static NSMutableDictionary *_JSOverideMethods;
 </code></pre></li>
 <li><p>最终在forwardInvocation里从全局字典里获取对应方法的JSValue，使用[JSValue callWithArguments:]调用JS函数。</p>
 </li>
-</ul>
+</ol>
 
       
     </div>
@@ -461,10 +461,10 @@ return callSelector(nil, selectorName, arguments, obj, isSuper);
       
         <ul class="sidebar-nav motion-element">
           <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
-            Table of Contents
+            Inhaltsverzeichnis
           </li>
           <li class="sidebar-nav-overview" data-target="site-overview">
-            Overview
+            Übersicht
           </li>
         </ul>
       
@@ -481,7 +481,7 @@ return callSelector(nil, selectorName, arguments, obj, isSuper);
           <div class="site-state-item site-state-posts">
             <a href="/archives">
               <span class="site-state-item-count">7</span>
-              <span class="site-state-item-name">posts</span>
+              <span class="site-state-item-name">Artikel</span>
             </a>
           </div>
 
@@ -489,7 +489,7 @@ return callSelector(nil, selectorName, arguments, obj, isSuper);
             <div class="site-state-item site-state-categories">
               <a href="/categories">
                 <span class="site-state-item-count">1</span>
-                <span class="site-state-item-name">categories</span>
+                <span class="site-state-item-name">Kategorien</span>
               </a>
             </div>
           
@@ -498,7 +498,7 @@ return callSelector(nil, selectorName, arguments, obj, isSuper);
             <div class="site-state-item site-state-tags">
               <a href="/tags">
                 <span class="site-state-item-count">1</span>
-                <span class="site-state-item-name">tags</span>
+                <span class="site-state-item-name">Tags</span>
               </a>
             </div>
           
@@ -553,7 +553,7 @@ return callSelector(nil, selectorName, arguments, obj, isSuper);
 </div>
 
 <div class="powered-by">
-  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
+  Erstellt mit  <a class="theme-link" href="https://hexo.io">Hexo</a>
 </div>
 
 <div class="theme-info">
